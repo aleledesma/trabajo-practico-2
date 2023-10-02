@@ -15,6 +15,7 @@ public:
     Tablero(int filas = 10, int columnas = 10);
     bool setEnPos(int fila, int columna, int valor);
     int getEnPos(int fila, int columna);
+    ~Tablero();
 };
 
 #endif // TABLERO_H

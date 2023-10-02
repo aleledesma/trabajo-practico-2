@@ -27,3 +27,11 @@ int Tablero::getEnPos(int fila, int columna)
 {
 
 }
+
+Tablero::~Tablero()
+{
+    for(int i = 0; i<this->filas; i++) {
+        delete[] this->matriz[i];
+    }
+    delete[] this->matriz;
+}

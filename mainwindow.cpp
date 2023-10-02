@@ -17,6 +17,16 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete this->juego;
+    delete this->frameGameScreen;
+    delete this->gridLayout;
+    for(int i = 0; i<this->juego->getFilas(); i++) {
+        for(int j = 0; j<this->juego->getColumnas(); j++) {
+            delete this->matrizBotones[i][j];
+        }
+        delete[] this->matrizBotones[i];
+    }
+    delete[] matrizBotones;
 }
 
 
