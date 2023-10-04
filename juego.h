@@ -2,6 +2,8 @@
 #define JUEGO_H
 
 #include "tablero.h"
+#include <cstdlib>
+#include <iostream>
 
 
 class Juego
@@ -14,6 +16,8 @@ public:
     Juego(int filas = 10, int columnas = 10);
     int getFilas() const;
     int getColumnas() const;
+    int** iniciarJuego(int segundos);
+    int genNumero(int max);
     ~Juego();
 };
 

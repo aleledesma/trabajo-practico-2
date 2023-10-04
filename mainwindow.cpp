@@ -53,5 +53,11 @@ void MainWindow::on_pushButton_clicked()
     this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
     this->juego = new Juego(filas, columnas);
+    int** posiciones = this->juego->iniciarJuego(1);
+    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText("c");
+    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText("c");
+   // this->matrizBotones[0][0]->setText("🚉");
+    //this->matrizBotones[1][1]->setText("🚉");
+
 }
 
