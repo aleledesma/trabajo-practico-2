@@ -7,7 +7,7 @@ class Horizontal : public Estacion
 {
 public:
     Horizontal(int x, int y);
-    void comprobaciones(int arriba, int abajo, int izq, int derecha);
+    void comprobaciones(int arriba, int abajo, int izq, int derecha) override;
 };
 
 #endif // HORIZONTAL_H
