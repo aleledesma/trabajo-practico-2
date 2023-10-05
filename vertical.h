@@ -7,7 +7,7 @@ class Vertical : public Estacion
 {
 public:
     Vertical(int x, int y);
-    void comprobaciones(int arriba, int abajo, int izq, int derecha);
+    void comprobaciones(int arriba, int abajo, int izq, int derecha) override;
 };
 
 #endif // VERTICAL_H
