@@ -9,7 +9,7 @@ private:
     int y;
 public:
     Estacion(int x, int y);
-    virtual void comprobaciones() = 0;
+    virtual void comprobaciones()=0;
     int getX() const;
     void setX(int newX);
     int getY() const;

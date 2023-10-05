@@ -4,3 +4,8 @@ Vertical::Vertical(int x, int y) :  Estacion(x, y)
 {
 
 }
+
+void Vertical::comprobaciones()
+{
+
+}

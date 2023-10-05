@@ -3,3 +3,9 @@
 Comun::Comun(int x, int y) : Estacion(x, y)
 {
 }
+
+void Comun::comprobaciones()
+{
+
+}
+
