@@ -7,7 +7,7 @@ class Multiple : public Estacion
 {
 public:
     Multiple(int x, int y);
-    void comprobaciones(int arriba, int abajo, int izq, int derecha);
+    void comprobaciones(int arriba, int abajo, int izq, int derecha) override;
 
 };
 
