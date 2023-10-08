@@ -38,6 +38,11 @@ int Juego::genNumero(int max)
     return num;
 }
 
+Tablero *Juego::getReferenciaTablero()
+{
+    return this->tablero;
+}
+
 Juego::~Juego()
 {
     delete this->tablero;

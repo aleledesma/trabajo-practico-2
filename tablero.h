@@ -23,6 +23,8 @@ public:
     bool setEnPos(int fila, int columna, int valor);
     int getEnPos(int fila, int columna);
     void ponerEstacion(int fila, int columuna);
+    void ponerRuta();
+    int getEstacionDeVector(int indice);
     ~Tablero();
 };
 

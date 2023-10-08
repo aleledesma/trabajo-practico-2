@@ -25,7 +25,7 @@ bool Tablero::setEnPos(int fila, int columna, int valor)
 
 int Tablero::getEnPos(int fila, int columna)
 {
-
+    return this->matriz[fila][columna];
 }
 
 void Tablero::ponerEstacion(int fila, int columuna)
@@ -35,16 +35,26 @@ void Tablero::ponerEstacion(int fila, int columuna)
         int tipoEstacion = rand() % 4+1;
         std::cout<<"Tipo de est: "<<tipoEstacion<<std::endl;
         this->matriz[fila][columuna] = tipoEstacion;
-       /* switch(tipoEstacion) {
-        case 1: nuevaEstacion = new Comun(fila, columuna); break;
-        case 2: nuevaEstacion = new Multiple(fila, columuna); break;
-        case 3: nuevaEstacion = new Horizontal(fila, columuna); break;
-        case 4: nuevaEstacion = new Vertical(fila, columuna); break;
+        switch(tipoEstacion) {
+        case 1: nuevaEstacion = new Comun(fila, columuna); nuevaEstacion->setTipo(1); break;//esto genera una fuga de memoria, destruir estaciones cuando sea necesario
+        case 2: nuevaEstacion = new Multiple(fila, columuna); nuevaEstacion->setTipo(2); break;
+        case 3: nuevaEstacion = new Horizontal(fila, columuna); nuevaEstacion->setTipo(3); break;
+        case 4: nuevaEstacion = new Vertical(fila, columuna); nuevaEstacion->setTipo(4); break;
         default: break;
-        } */
+        }
         this->estaciones.push_back(nuevaEstacion);
     }
 
+}
+
+void Tablero::ponerRuta()
+{
+
+}
+
+int Tablero::getEstacionDeVector(int indice)
+{
+    return this->estaciones[indice]->getTipo();
 }
 
 Tablero::~Tablero()

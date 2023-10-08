@@ -18,6 +18,7 @@ public:
     int getColumnas() const;
     int** iniciarJuego(int segundos);
     int genNumero(int max);
+    Tablero* getReferenciaTablero();//esto lo necesitamos para acceder al vector de estaciones cuando apretamos el boton "jugar xd"
     ~Juego();
 };
 

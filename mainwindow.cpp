@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tablero.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,10 +55,19 @@ void MainWindow::on_pushButton_clicked()
 
     this->juego = new Juego(filas, columnas);
     int** posiciones = this->juego->iniciarJuego(1);
-    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText("c");
-    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText("c");
-   // this->matrizBotones[0][0]->setText("🚉");
-    //this->matrizBotones[1][1]->setText("🚉");
 
+
+    Tablero* tablero = this->juego->getReferenciaTablero();//este es el tablero que generamos recien, lo necesitamos para acceder a las estaciones
+
+    int tipoEstacion = tablero->getEstacionDeVector(0);//aca sacamos el tipo de estacion de adentro del vector
+    QString c;
+    c.setNum(tipoEstacion);//aca lo convertimos de int a QString
+
+    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(c);//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
+
+    tipoEstacion = tablero->getEstacionDeVector(1);
+    c.setNum(tipoEstacion);
+
+    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(c);
 }
 
