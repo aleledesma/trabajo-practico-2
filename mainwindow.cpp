@@ -40,6 +40,8 @@ void MainWindow::on_pushButton_clicked()
     this->gridLayout = new QGridLayout(frameGameScreen);
     this->adjustSize(); //ajusta el tamaño al mínimo requerido
 
+    this->juego = new Juego(filas, columnas);
+    Tablero* tablero = this->juego->getReferenciaTablero();//este es el tablero que generamos recien, lo necesitamos para acceder a las estaciones
     this->matrizBotones = new QPushButton**[filas];
     for(int i = 0; i<filas; i++) {
         this->matrizBotones[i] = new QPushButton*[columnas];
@@ -47,18 +49,25 @@ void MainWindow::on_pushButton_clicked()
             this->matrizBotones[i][j] = new QPushButton(this);
             this->matrizBotones[i][j]->setFixedSize(50,50);
             this->gridLayout->addWidget(this->matrizBotones[i][j], i, j);
+            //
+            QObject::connect(this->matrizBotones[i][j],
+                             &QPushButton::clicked,
+                             [=](){
+                             bool res = tablero->ponerRuta(i, j);
+                             if(res) {
+                                  this->matrizBotones[i][j]->setText("v");
+                             }
+                             }
+            );
         }
     }
+
     this->frameGameScreen->setLayout(this->gridLayout);
     //
     this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
-    this->juego = new Juego(filas, columnas);
     int** posiciones = this->juego->iniciarJuego(1);
-
-
-    Tablero* tablero = this->juego->getReferenciaTablero();//este es el tablero que generamos recien, lo necesitamos para acceder a las estaciones
-
+    //
     int tipoEstacion = tablero->getEstacionDeVector(0);//aca sacamos el tipo de estacion de adentro del vector
     QString c;
     c.setNum(tipoEstacion);//aca lo convertimos de int a QString
@@ -69,5 +78,7 @@ void MainWindow::on_pushButton_clicked()
     c.setNum(tipoEstacion);
 
     this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(c);
+
 }
+
 
