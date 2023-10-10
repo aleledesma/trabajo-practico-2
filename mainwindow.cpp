@@ -53,10 +53,10 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
-                             bool res = tablero->ponerRuta(i, j);
-                             if(res) {
-                                  this->matrizBotones[i][j]->setText("v");
-                             }
+                                 bool res = tablero->ponerRuta(i, j);
+                                 if(res) {
+                                      this->matrizBotones[i][j]->setText("v");
+                                 }
                              }
             );
         }
@@ -67,7 +67,8 @@ void MainWindow::on_pushButton_clicked()
     this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
     int** posiciones = this->juego->iniciarJuego(1);
-    //
+
+    //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
     int tipoEstacion = tablero->getEstacionDeVector(0);//aca sacamos el tipo de estacion de adentro del vector
     QString c;
     c.setNum(tipoEstacion);//aca lo convertimos de int a QString

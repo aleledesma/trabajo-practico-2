@@ -18,26 +18,29 @@ bool Tablero::setEnPos(int fila, int columna, int valor)
     if((fila < this->filas) && (columna < this->columnas) && (this->matriz[fila][columna] == 0)) {
         this->matriz[fila][columna] = valor;
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 int Tablero::getEnPos(int fila, int columna)
 {
-    return this->matriz[fila][columna];
+    if(fila < this->filas && columna < this->columnas) {
+        return this->matriz[fila][columna];
+    }
+    return -1; //en el caso de que la posición este fuera de las dimenciones de la matriz
+
 }
 
 void Tablero::ponerEstacion(int fila, int columuna)
 {
     if(fila < this->filas && columuna < this->columnas) {
-        Estacion* nuevaEstacion = new Comun(fila, columuna);
+        Estacion* nuevaEstacion;
         int tipoEstacion = rand() % 4+1;
       //  std::cout<<"Tipo de est: "<<tipoEstacion<<std::endl;
         this->matriz[fila][columuna] = tipoEstacion;
        // std::cout<<"Est: "<<this->matriz[fila][columuna]<<std::endl;
         switch(tipoEstacion) {
-        case 1: nuevaEstacion = new Comun(fila, columuna); nuevaEstacion->setTipo(1); break;//esto genera una fuga de memoria, destruir estaciones cuando sea necesario
+        case 1: nuevaEstacion = new Comun(fila, columuna); nuevaEstacion->setTipo(1); break;
         case 2: nuevaEstacion = new Multiple(fila, columuna); nuevaEstacion->setTipo(2); break;
         case 3: nuevaEstacion = new Horizontal(fila, columuna); nuevaEstacion->setTipo(3); break;
         case 4: nuevaEstacion = new Vertical(fila, columuna); nuevaEstacion->setTipo(4); break;
@@ -76,8 +79,11 @@ int Tablero::getEstacionDeVector(int indice)
 
 Tablero::~Tablero()
 {
+    // Liberar matriz
     for(int i = 0; i<this->filas; i++) {
         delete[] this->matriz[i];
     }
     delete[] this->matriz;
+    //liberar vector estaciones
+    this->estaciones.clear(); //elimina todos los elementos.
 }

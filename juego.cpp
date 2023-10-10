@@ -23,6 +23,7 @@ int** Juego::iniciarJuego(int segundos)
     int** posiciones = new int*[2];
     for(int i = 0; i<2; i++) {
         posiciones[i] = new int[2];
+        //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
         int fila = this->genNumero(this->filas);
         int columna = this->genNumero(this->columnas);
         posiciones[i][0] = fila;
