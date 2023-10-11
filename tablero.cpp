@@ -62,19 +62,36 @@ bool Tablero::ponerRuta(int fila, int columna)
 
 bool Tablero::comprobarRuta(int fila, int columna)
 {
-    //mapa usa string para comparar porque char compara la pos de memoria. xd
     bool res = false;
-    if((fila > 0 && fila < this->filas) && (columna > 0 && columna < this->columnas)) {
-        bool rutaCerca = (this->matriz[fila - 1][columna] == 5 || this->matriz[fila - 1][columna] == 6) || (this->matriz[fila + 1][columna] == 5 || this->matriz[fila + 1][columna] == 6) || (this->matriz[fila][columna - 1] == 5 || this->matriz[fila][columna - 1] == 6) || (this->matriz[fila][columna + 1] == 5 || this->matriz[fila][columna + 1] == 6);
-        bool estacionCerca = (this->matriz[fila - 1][columna] > 0 && this->matriz[fila - 1][columna] < 5) || (this->matriz[fila + 1][columna] > 0 && this->matriz[fila + 1][columna] < 5) || (this->matriz[fila][columna - 1] > 0 && this->matriz[fila][columna - 1] < 5) || (this->matriz[fila][columna + 1] > 0 && this->matriz[fila][columna + 1] < 5);
-        res = (this->matriz[fila][columna] == 0) && ((estacionCerca) || (rutaCerca));
-    }
+//  Es innecesario validar que fila y columna este dentro de las dimenciones.
+    bool izq = (columna > 0) ? (this->comprobarExistencia(fila, columna - 1, "estacion") || this->comprobarExistencia(fila, columna - 1, "ruta")) : false;
+    bool der = (columna < (this->columnas - 1)) ? (this->comprobarExistencia(fila, columna + 1, "estacion") || this->comprobarExistencia(fila, columna + 1, "ruta")) : false;
+    bool arr = (fila > 0) ? (this->comprobarExistencia(fila - 1, columna, "estacion") || this->comprobarExistencia(fila - 1, columna, "ruta")) : false;
+    bool abj = (fila < (this->filas - 1)) ? (this->comprobarExistencia(fila + 1, columna, "estacion") || this->comprobarExistencia(fila + 1, columna, "ruta")) : false;
+    res = (this->comprobarExistencia(fila, columna, "vacio")) && (izq || der || arr || abj);
+
     return res;
 }
 
 int Tablero::getEstacionDeVector(int indice)
 {
     return this->estaciones[indice]->getTipo();
+}
+
+bool Tablero::comprobarExistencia(int fila, int columna, char *entidad)
+{
+    int valorEnMatriz = this->matriz[fila][columna];
+    bool respuesta = false;
+    if(entidad == "estacion") {
+        respuesta = valorEnMatriz > 0 && valorEnMatriz <5;
+    }
+    else if(entidad == "ruta") {
+        respuesta = valorEnMatriz == 5 || valorEnMatriz == 6;
+    }
+    else if(entidad == "vacio") {
+        respuesta = valorEnMatriz == 0;
+    }
+    return respuesta;
 }
 
 Tablero::~Tablero()

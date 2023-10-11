@@ -26,6 +26,7 @@ public:
     bool ponerRuta(int fila, int columna);
     bool comprobarRuta(int fila, int columna);
     int getEstacionDeVector(int indice); //cambiar nombre del metodo a getTipoEstacion ya que getEstacionDeVector hace referencia a que devuelve la estación.
+    bool comprobarExistencia(int fila, int columna, char* entidad);
     ~Tablero();
 };
 
