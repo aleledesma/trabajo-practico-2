@@ -87,8 +87,8 @@ bool Juego::comprobarConexionEstaciones()
     {
         if(this->estaciones[i]->comprobaciones()==false)
         {
-            std::cout<<"Estacion de tipo "<<this->estaciones[i]->getTipo()<<" no esta conectada"<<std::endl;
-            //return false;//si alguna de las estaciones no esta conectada, devolvemos falso
+            //std::cout<<"Estacion de tipo "<<this->estaciones[i]->getTipo()<<" no esta conectada"<<std::endl;
+            return false;//si alguna de las estaciones no esta conectada, devolvemos falso
         }
     }
     return true;//si todas las estaciones estan conectadas, tenemos que crear una estacion nueva

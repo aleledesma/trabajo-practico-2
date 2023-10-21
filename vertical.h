@@ -5,6 +5,8 @@
 
 class Vertical : public Estacion
 {
+private:
+    Tablero* tablero;
 public:
     Vertical(int x, int y, Tablero* t);
     bool comprobaciones() override;

@@ -2,10 +2,11 @@
 
 Horizontal::Horizontal(int x, int y, Tablero* t) : Estacion(x, y, t)
 {
-
+    this->tablero = t;
 }
 
 bool Horizontal::comprobaciones()
 {
-    return false;
+    //if(this->tablero->getEnPos(this->getY(),this->getX())==5)//esto tiene que ser 6, no 5
+    return true;
 }
