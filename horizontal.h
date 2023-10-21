@@ -6,8 +6,8 @@
 class Horizontal : public Estacion
 {
 public:
-    Horizontal(int x, int y);
-    void comprobaciones() override;
+    Horizontal(int x, int y, Tablero* t);
+    bool comprobaciones() override;
 };
 
 #endif // HORIZONTAL_H

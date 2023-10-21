@@ -5,28 +5,16 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "estacion.h"
-#include "comun.h"
-#include "vertical.h"
-#include "horizontal.h"
-#include "multiple.h"
-
 class Tablero
 {
 private:
     int** matriz = nullptr;
-    std::vector<Estacion*> estaciones;
     int filas;
     int columnas;
 public:
     Tablero(int filas = 10, int columnas = 10);
     bool setEnPos(int fila, int columna, int valor);
     int getEnPos(int fila, int columna);
-    void ponerEstacion(int fila, int columuna);
-    bool ponerRuta(int fila, int columna);
-    bool comprobarRuta(int fila, int columna);
-    int getEstacionDeVector(int indice); //cambiar nombre del metodo a getTipoEstacion ya que getEstacionDeVector hace referencia a que devuelve la estación.
-    bool comprobarExistencia(int fila, int columna, char* entidad);
     ~Tablero();
 };
 

@@ -6,8 +6,8 @@
 class Multiple : public Estacion
 {
 public:
-    Multiple(int x, int y);
-    void comprobaciones() override;
+    Multiple(int x, int y, Tablero* t);
+    bool comprobaciones() override;
 
 };
 

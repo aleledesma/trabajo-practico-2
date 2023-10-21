@@ -1,11 +1,11 @@
 #include "comun.h"
 
-Comun::Comun(int x, int y) : Estacion(x, y)
+Comun::Comun(int x, int y, Tablero* t) : Estacion(x, y, t)
 {
 }
 
-void Comun::comprobaciones()
+bool Comun::comprobaciones()
 {
-
+    return false;
 }
 

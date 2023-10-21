@@ -1,11 +1,11 @@
 #include "horizontal.h"
 
-Horizontal::Horizontal(int x, int y) : Estacion(x, y)
+Horizontal::Horizontal(int x, int y, Tablero* t) : Estacion(x, y, t)
 {
 
 }
 
-void Horizontal::comprobaciones()
+bool Horizontal::comprobaciones()
 {
-
+    return false;
 }

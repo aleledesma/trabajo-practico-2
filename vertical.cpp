@@ -1,11 +1,11 @@
 #include "vertical.h"
 
-Vertical::Vertical(int x, int y) :  Estacion(x, y)
+Vertical::Vertical(int x, int y, Tablero* t) :  Estacion(x, y, t)
 {
 
 }
 
-void Vertical::comprobaciones()
+bool Vertical::comprobaciones()
 {
-
+    return false;
 }

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tablero.h"
+#include "juego.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,7 +42,6 @@ void MainWindow::on_pushButton_clicked()
     this->adjustSize(); //ajusta el tamaño al mínimo requerido
 
     this->juego = new Juego(filas, columnas);
-    Tablero* tablero = this->juego->getReferenciaTablero();//este es el tablero que generamos recien, lo necesitamos para acceder a las estaciones
     this->matrizBotones = new QPushButton**[filas];
     for(int i = 0; i<filas; i++) {
         this->matrizBotones[i] = new QPushButton*[columnas];
@@ -53,9 +53,11 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
-                                 bool res = tablero->ponerRuta(i, j);
+                                 bool res = juego->ponerRuta(i, j);
+
                                  if(res) {
                                       this->matrizBotones[i][j]->setText("v");
+                                     juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
                                  }
                              }
             );
@@ -69,13 +71,13 @@ void MainWindow::on_pushButton_clicked()
     int** posiciones = this->juego->iniciarJuego(1);
 
     //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
-    int tipoEstacion = tablero->getEstacionDeVector(0);//aca sacamos el tipo de estacion de adentro del vector
+    int tipoEstacion = juego->getTipoEstacion(0);//aca sacamos el tipo de estacion de adentro del vector
     QString c;
     c.setNum(tipoEstacion);//aca lo convertimos de int a QString
 
     this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(c);//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
 
-    tipoEstacion = tablero->getEstacionDeVector(1);
+    tipoEstacion = juego->getTipoEstacion(1);
     c.setNum(tipoEstacion);
 
     this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(c);

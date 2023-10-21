@@ -1,11 +1,11 @@
 #include "multiple.h"
 
-Multiple::Multiple(int x, int y) :  Estacion(x, y)
+Multiple::Multiple(int x, int y, Tablero* t) :  Estacion(x, y, t)
 {
 
 }
 
-void Multiple::comprobaciones()
+bool Multiple::comprobaciones()
 {
-
+    return false;
 }
