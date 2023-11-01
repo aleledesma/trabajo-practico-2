@@ -191,6 +191,56 @@ Estacion *Juego::buscarEstacion(int x, int y)
     return estBuscada;
 }
 
+int Juego::getCantidadEstaciones()
+{
+    return this->estaciones.size();
+}
+
+Estacion *Juego::getReferenciaEstacionIndice(int indice)
+{
+    return this->estaciones[indice];
+}
+
+void Juego::guardarPartida()
+{
+    QFile salida("partida.dat");
+    salida.open(QIODevice::WriteOnly);
+    //falta guardar cantidad de estaciones y tamaño de tablero
+    if(salida.isOpen()) {//guardar los datos de cada estacion
+        estacion e;
+        for(int i=0; i<estaciones.size(); i++) {
+            e.tipo = estaciones[i]->getTipo();
+            e.posX = estaciones[i]->getX();
+            e.posY = estaciones[i]->getY();
+            salida.write((char*)&e,sizeof(estacion));
+        }
+    }
+}
+
+void Juego::cargarPartida()
+{
+    QFile entrada("partida.dat");
+    entrada.open(QIODevice::ReadOnly);
+
+    if(entrada.isOpen()) {//cargar los datos de cada estacion
+        estacion e;
+        Estacion* nuevaEstacion;
+        while(!entrada.atEnd())
+        {
+            entrada.read((char*)&e,sizeof(estacion));
+            switch(e.tipo)
+            {
+                case 1: nuevaEstacion = new Comun(e.posX,e.posY,this->tablero); nuevaEstacion->setTipo(e.tipo); break;
+                case 2: nuevaEstacion = new Multiple(e.posX,e.posY,this->tablero); nuevaEstacion->setTipo(e.tipo); break;
+                case 3: nuevaEstacion = new Horizontal(e.posX,e.posY,this->tablero); nuevaEstacion->setTipo(e.tipo); break;
+                case 4: nuevaEstacion = new Vertical(e.posX,e.posY,this->tablero); nuevaEstacion->setTipo(e.tipo); break;
+            }
+            estaciones.push_back(nuevaEstacion);
+
+        }
+    }
+}
+
 Tablero *Juego::getReferenciaTablero()
 {
     return this->tablero;
