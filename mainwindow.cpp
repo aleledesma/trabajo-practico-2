@@ -71,17 +71,66 @@ void MainWindow::on_pushButton_clicked()
     int** posiciones = this->juego->iniciarJuego(1);
 
     //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
-    int tipoEstacion = juego->getTipoEstacion(0);//aca sacamos el tipo de estacion de adentro del vector
+    int tipoEstacion = juego->getReferenciaEstacionIndice(0)->getTipo();//aca sacamos el tipo de estacion de adentro del vector
     QString c;
     c.setNum(tipoEstacion);//aca lo convertimos de int a QString
 
     this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(c);//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
 
-    tipoEstacion = juego->getTipoEstacion(1);
+    tipoEstacion = juego->getReferenciaEstacionIndice(1)->getTipo();
     c.setNum(tipoEstacion);
 
     this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(c);
 
 }
 
+void MainWindow::on_pushButton_3_clicked()//cargar partida
+{
+    int filas = this->ui->spinBox->value();
+    int columnas = this->ui->spinBox_2->value();
 
+    this->frameGameScreen = new QFrame(this);
+    this->gridLayout = new QGridLayout(frameGameScreen);
+    this->adjustSize(); //ajusta el tamaño al mínimo requerido
+
+    this->juego = new Juego(filas, columnas);//esto hay que cambiarlo para que tome el tamaño del archivo
+    this->matrizBotones = new QPushButton**[filas];
+    for(int i = 0; i<filas; i++) {
+        this->matrizBotones[i] = new QPushButton*[columnas];
+        for(int j = 0; j<columnas; j++) {
+            this->matrizBotones[i][j] = new QPushButton(this);
+            this->matrizBotones[i][j]->setFixedSize(50,50);
+            this->gridLayout->addWidget(this->matrizBotones[i][j], i, j);
+            //
+            QObject::connect(this->matrizBotones[i][j],
+                             &QPushButton::clicked,
+                             [=](){
+                                    this->matrizBotones[i][j]->setText("v");
+                                    juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
+                                    juego->guardarPartida();
+                                 }
+            );
+        }
+    }
+
+    this->frameGameScreen->setLayout(this->gridLayout);
+    //
+    this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
+
+
+    this->juego->cargarPartida();//cargamos la partida
+
+    for(int i=0; i<this->juego->getCantidadEstaciones(); i++)
+    {
+
+
+        int x = juego->getReferenciaEstacionIndice(i)->getX();
+        int y = juego->getReferenciaEstacionIndice(i)->getY();
+        int tipoEstacion = juego->getReferenciaEstacionIndice(i)->getTipo();
+
+        QString c;
+        c.setNum(tipoEstacion);
+
+        this->matrizBotones[x][y]->setText(c);
+    }
+}
