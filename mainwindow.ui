@@ -34,7 +34,7 @@
       <rect>
        <x>20</x>
        <y>360</y>
-       <width>331</width>
+       <width>211</width>
        <height>24</height>
       </rect>
      </property>
@@ -91,14 +91,27 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>570</x>
        <y>360</y>
-       <width>331</width>
+       <width>211</width>
        <height>24</height>
       </rect>
      </property>
      <property name="text">
       <string>Salir</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>360</y>
+       <width>211</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cargar partida</string>
      </property>
     </widget>
    </widget>
