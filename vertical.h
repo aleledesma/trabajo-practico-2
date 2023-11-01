@@ -9,7 +9,7 @@ private:
     Tablero* tablero;
 public:
     Vertical(int x, int y, Tablero* t);
-    bool comprobaciones() override;
+    bool comprobaciones(int filaDeColocacion, int columnaDeColocacion) override;
 };
 
 #endif // VERTICAL_H

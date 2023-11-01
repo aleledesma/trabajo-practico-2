@@ -9,7 +9,7 @@ private:
     Tablero* tablero;
 public:
     Horizontal(int x, int y, Tablero* t);
-    bool comprobaciones() override;
+    bool comprobaciones(int filaDeColocacion, int columnaDeColocacion) override;
 };
 
 #endif // HORIZONTAL_H

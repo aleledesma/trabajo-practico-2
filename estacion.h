@@ -12,7 +12,7 @@ private:
 public:
     Estacion(int x, int y);
     Estacion(int x, int y, Tablero* t);
-    virtual bool comprobaciones()=0;//este metodo no puede tener parametros
+    virtual bool comprobaciones(int filaDeColocacion, int columnaDeColocacion)=0;
     int getX() const;
     void setX(int newX);
     int getY() const;

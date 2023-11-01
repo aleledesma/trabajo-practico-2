@@ -5,9 +5,11 @@
 
 class Multiple : public Estacion
 {
+private:
+    Tablero* tablero;
 public:
     Multiple(int x, int y, Tablero* t);
-    bool comprobaciones() override;
+    bool comprobaciones(int filaDeColocacion, int columnaDeColocacion) override;
 
 };
 

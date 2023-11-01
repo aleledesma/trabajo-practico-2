@@ -5,12 +5,7 @@ Vertical::Vertical(int x, int y, Tablero* t) :  Estacion(x, y, t)
     this->tablero = this->getTablero();
 }
 
-bool Vertical::comprobaciones()
+bool Vertical::comprobaciones(int filaDeColocacion, int columnaDeColocacion)
 {
-    if(this->tablero->getEnPos(this->getX()-1,this->getY())==5 || this->tablero->getEnPos(this->getX()+1,this->getY())==5)
-    {
-        std::cout<<"Estacion "<<this->getTipo()<<" conectada con exito"<<std::endl;
-        return true;
-    }
-    return false;
+    return ((tablero->getEnPos(this->getX() - 1, this->getY()) == 0) || (tablero->getEnPos(this->getX() + 1, this->getY()) == 0)) && (columnaDeColocacion == this->getY());
 }

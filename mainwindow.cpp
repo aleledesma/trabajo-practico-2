@@ -57,7 +57,7 @@ void MainWindow::on_pushButton_clicked()
 
                                  if(res) {
                                       this->matrizBotones[i][j]->setText("v");
-                                     juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
+                                     //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
                                  }
                              }
             );
