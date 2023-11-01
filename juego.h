@@ -44,6 +44,11 @@ public:
     Estacion* estacionCerca(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
 
+    int getCantidadEstaciones();
+    Estacion* getReferenciaEstacionIndice(int indice);
+    void guardarPartida();
+    void cargarPartida();
+
     ~Juego();
     void setRonda(int newRonda);
     int getRonda() const;
