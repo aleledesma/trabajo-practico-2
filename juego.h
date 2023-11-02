@@ -15,6 +15,8 @@
 #include <map>
 #include <algorithm>
 
+#include "qfile.h"
+
 using namespace std;
 
 class Juego
