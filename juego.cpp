@@ -17,6 +17,21 @@ Juego::Juego(int filas, int columnas)
     this->columnas = columnas;
 }
 
+void Juego::setFilas(int f)
+{
+    this->filas = f;
+}
+
+void Juego::setColumnas(int c)
+{
+    this->columnas = c;
+}
+
+void Juego::instanciarTablero()
+{
+    this->tablero = new Tablero(filas, columnas);
+}
+
 int Juego::getFilas() const
 {
     return this->filas;
@@ -251,7 +266,7 @@ void Juego::guardarPartida()
     }
 }
 
-void Juego::cargarPartida()
+bool Juego::cargarPartida()
 {
     QFile entrada("partida.dat");
     entrada.open(QIODevice::ReadOnly);
@@ -286,6 +301,9 @@ void Juego::cargarPartida()
             this->rutasDeRonda.push_back(this->ultimaRuta);
         }
         entrada.close();
+
+        setFilas(c.tableroY);
+        setColumnas(c.tableroX);
     }
 }
 

@@ -48,6 +48,8 @@ private:
     std::vector<Estacion*> estaciones;
 public:
     Juego(int filas = 10, int columnas = 10);
+    void setFilas(int f);
+    void setColumnas(int c);
     int getFilas() const;
     int getColumnas() const;
     int** iniciarJuego(int segundos);
@@ -63,12 +65,13 @@ public:
     Estacion* estacionCerca(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
 
+    void instanciarTablero();
     pair<int, int> getCoordenadasRutaIndice(int indice);
     int getCantidadRutas();
     int getCantidadEstaciones();
     Estacion* getReferenciaEstacionIndice(int indice);
     void guardarPartida();
-    void cargarPartida();
+    bool cargarPartida();
 
     ~Juego();
     void setRonda(int newRonda);

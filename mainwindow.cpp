@@ -31,7 +31,6 @@ MainWindow::~MainWindow()
     delete[] matrizBotones;
 }
 
-
 void MainWindow::on_pushButton_clicked()
 {
     int filas = this->ui->spinBox->value();
@@ -85,58 +84,57 @@ void MainWindow::on_pushButton_clicked()
 
 }
 
-void MainWindow::on_pushButton_3_clicked()//cargar partida
+void MainWindow::on_pushButton_3_clicked()
 {
-    int filas = this->ui->spinBox->value();
-    int columnas = this->ui->spinBox_2->value();
+    this->juego = new Juego();
+    if(this->juego->cargarPartida())
+    {
+        this->frameGameScreen = new QFrame(this);
+        this->gridLayout = new QGridLayout(frameGameScreen);
+        this->adjustSize();
 
-    this->frameGameScreen = new QFrame(this);
-    this->gridLayout = new QGridLayout(frameGameScreen);
-    this->adjustSize(); //ajusta el tamaño al mínimo requerido
+        this->juego->cargarPartida();
+        this->juego->instanciarTablero();
 
-    this->juego = new Juego(filas, columnas);//esto hay que cambiarlo para que tome el tamaño del archivo
-    this->matrizBotones = new QPushButton**[filas];
-    for(int i = 0; i<filas; i++) {
-        this->matrizBotones[i] = new QPushButton*[columnas];
-        for(int j = 0; j<columnas; j++) {
-            this->matrizBotones[i][j] = new QPushButton(this);
-            this->matrizBotones[i][j]->setFixedSize(50,50);
-            this->gridLayout->addWidget(this->matrizBotones[i][j], i, j);
-            //
-            QObject::connect(this->matrizBotones[i][j],
-                             &QPushButton::clicked,
-                             [=](){
-                                    this->matrizBotones[i][j]->setText("v");
-                                    //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
-                                    juego->guardarPartida();
-                                 }
-            );
+        this->matrizBotones = new QPushButton**[this->juego->getFilas()];
+        for(int i = 0; i<this->juego->getFilas(); i++) {
+            this->matrizBotones[i] = new QPushButton*[this->juego->getColumnas()];
+            for(int j = 0; j<this->juego->getColumnas(); j++) {
+                this->matrizBotones[i][j] = new QPushButton(this);
+                this->matrizBotones[i][j]->setFixedSize(50,50);
+                this->gridLayout->addWidget(this->matrizBotones[i][j], i, j);
+                //
+                QObject::connect(this->matrizBotones[i][j],
+                                 &QPushButton::clicked,
+                                 [=](){
+                                        this->matrizBotones[i][j]->setText("v");
+                                        this->juego->guardarPartida();
+                                     }
+                );
+            }
         }
-    }
 
-    this->frameGameScreen->setLayout(this->gridLayout);
-    //
-    this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
+        this->frameGameScreen->setLayout(this->gridLayout);
+        //
+        this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
+        for(int i=0; i<this->juego->getCantidadEstaciones(); i++)
+        {
+            int x = juego->getReferenciaEstacionIndice(i)->getX();
+            int y = juego->getReferenciaEstacionIndice(i)->getY();
+            int tipoEstacion = juego->getReferenciaEstacionIndice(i)->getTipo();
 
-    this->juego->cargarPartida();//cargamos la partida
+            QString c;
+            c.setNum(tipoEstacion);
 
-    for(int i=0; i<this->juego->getCantidadEstaciones(); i++)
-    {
-        int x = juego->getReferenciaEstacionIndice(i)->getX();
-        int y = juego->getReferenciaEstacionIndice(i)->getY();
-        int tipoEstacion = juego->getReferenciaEstacionIndice(i)->getTipo();
+            this->matrizBotones[x][y]->setText(c);
+        }
+        for(int i=0; i<this->juego->getCantidadRutas(); i++)
+        {
+            pair<int,int> coordenadas;
+            coordenadas = juego->getCoordenadasRutaIndice(i);
 
-        QString c;
-        c.setNum(tipoEstacion);
-
-        this->matrizBotones[x][y]->setText(c);
-    }
-    for(int i=0; i<this->juego->getCantidadRutas(); i++)
-    {
-        pair<int,int> coordenadas;
-        coordenadas = juego->getCoordenadasRutaIndice(i);
-
-        this->matrizBotones[coordenadas.first][coordenadas.second]->setText("v");//esto hay que cambiarlo para que tome el tipo de ruta
+            this->matrizBotones[coordenadas.first][coordenadas.second]->setText("v");//esto hay que cambiarlo para que tome el tipo de ruta
+        }
     }
 }
