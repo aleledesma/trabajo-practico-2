@@ -106,7 +106,7 @@ void MainWindow::on_pushButton_3_clicked()//cargar partida
                              &QPushButton::clicked,
                              [=](){
                                     this->matrizBotones[i][j]->setText("v");
-                                    juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
+                                    //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
                                     juego->guardarPartida();
                                  }
             );
