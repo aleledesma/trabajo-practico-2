@@ -95,6 +95,21 @@ bool Juego::sePuedeConectarRuta(int fila, int columna) {
     return res;
 }
 
+pair<int, int> Juego::getCoordenadasRutaIndice(int indice)
+{
+    return this->rutasDeRonda[indice];
+}
+
+int Juego::getCantidadRutas()
+{
+    return this->rutasDeRonda.size();
+}
+
+int Juego::getCantidadEstaciones()
+{
+    return this->estaciones.size();
+}
+
 bool Juego::ponerRuta(int fila, int columna)
 {
     if(comprobarRuta(fila, columna) && sePuedeConectarRuta(fila, columna)) {
@@ -191,11 +206,6 @@ Estacion *Juego::buscarEstacion(int x, int y)
     return estBuscada;
 }
 
-int Juego::getCantidadEstaciones()
-{
-    return this->estaciones.size();
-}
-
 Estacion *Juego::getReferenciaEstacionIndice(int indice)
 {
     return this->estaciones[indice];
@@ -205,8 +215,20 @@ void Juego::guardarPartida()
 {
     QFile salida("partida.dat");
     salida.open(QIODevice::WriteOnly);
-    //falta guardar cantidad de estaciones y tamaño de tablero
-    if(salida.isOpen()) {//guardar los datos de cada estacion
+
+    //se debe guardar en el siguiente orden, tamaño tablero, cantidad estaciones, cantidad rutas, estaciones, rutas, ultima ruta
+
+    if(salida.isOpen()) {
+
+        //TAMAÑO TABLERO, CANTIDAD ESTACIONES, CANTIDAD RUTAS
+        cantidades c;
+        c.tableroX=getColumnas();
+        c.tableroY=getFilas();
+        c.cantidadEstaciones = estaciones.size();
+        c.cantidadRutas = rutasDeRonda.size();
+        salida.write((char*)&c,sizeof(cantidades));
+
+        //ESTACIONES
         estacion e;
         for(int i=0; i<estaciones.size(); i++) {
             e.tipo = estaciones[i]->getTipo();
@@ -214,6 +236,18 @@ void Juego::guardarPartida()
             e.posY = estaciones[i]->getY();
             salida.write((char*)&e,sizeof(estacion));
         }
+
+        //RUTAS, ULTIMA RUTA
+        ruta r;
+        for(int i=0; i<rutasDeRonda.size(); i++)
+        {
+            r.ultimaRuta.first = rutasDeRonda[i].first;
+            r.ultimaRuta.second = rutasDeRonda[i].second;
+            salida.write((char*)&r,sizeof(ruta));
+        }
+
+
+        salida.close();
     }
 }
 
@@ -223,9 +257,14 @@ void Juego::cargarPartida()
     entrada.open(QIODevice::ReadOnly);
 
     if(entrada.isOpen()) {//cargar los datos de cada estacion
+        cantidades c;
+        ruta r;
         estacion e;
         Estacion* nuevaEstacion;
-        while(!entrada.atEnd())
+
+        entrada.read((char*)&c,sizeof(cantidades));//TAMAÑO TABLERO, CANTIDAD ESTACIONES, CANTIDAD RUTAS
+
+        for(int i=0; i<c.cantidadEstaciones; i++)//ESTACIONES
         {
             entrada.read((char*)&e,sizeof(estacion));
             switch(e.tipo)
@@ -236,8 +275,17 @@ void Juego::cargarPartida()
                 case 4: nuevaEstacion = new Vertical(e.posX,e.posY,this->tablero); nuevaEstacion->setTipo(e.tipo); break;
             }
             estaciones.push_back(nuevaEstacion);
-
         }
+
+
+        for(int i=0; i<c.cantidadRutas; i++)
+        {
+            entrada.read((char*)&r,sizeof(ruta));
+            this->ultimaRuta.first = r.ultimaRuta.first;
+            this->ultimaRuta.second = r.ultimaRuta.second;
+            this->rutasDeRonda.push_back(this->ultimaRuta);
+        }
+        entrada.close();
     }
 }
 

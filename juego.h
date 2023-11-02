@@ -25,6 +25,17 @@ struct estacion{
     int posY;
 };
 
+struct ruta{
+    pair<int, int> ultimaRuta;
+};
+
+struct cantidades{
+    int tableroX;
+    int tableroY;
+    int cantidadEstaciones;
+    int cantidadRutas;
+};
+
 class Juego
 {
 private:
@@ -52,6 +63,8 @@ public:
     Estacion* estacionCerca(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
 
+    pair<int, int> getCoordenadasRutaIndice(int indice);
+    int getCantidadRutas();
     int getCantidadEstaciones();
     Estacion* getReferenciaEstacionIndice(int indice);
     void guardarPartida();

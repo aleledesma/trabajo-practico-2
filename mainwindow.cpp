@@ -123,8 +123,6 @@ void MainWindow::on_pushButton_3_clicked()//cargar partida
 
     for(int i=0; i<this->juego->getCantidadEstaciones(); i++)
     {
-
-
         int x = juego->getReferenciaEstacionIndice(i)->getX();
         int y = juego->getReferenciaEstacionIndice(i)->getY();
         int tipoEstacion = juego->getReferenciaEstacionIndice(i)->getTipo();
@@ -133,5 +131,12 @@ void MainWindow::on_pushButton_3_clicked()//cargar partida
         c.setNum(tipoEstacion);
 
         this->matrizBotones[x][y]->setText(c);
+    }
+    for(int i=0; i<this->juego->getCantidadRutas(); i++)
+    {
+        pair<int,int> coordenadas;
+        coordenadas = juego->getCoordenadasRutaIndice(i);
+
+        this->matrizBotones[coordenadas.first][coordenadas.second]->setText("v");//esto hay que cambiarlo para que tome el tipo de ruta
     }
 }
