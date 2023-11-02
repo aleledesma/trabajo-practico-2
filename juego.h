@@ -19,6 +19,12 @@
 
 using namespace std;
 
+struct estacion{
+    int tipo;
+    int posX;
+    int posY;
+};
+
 class Juego
 {
 private:
