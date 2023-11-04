@@ -42,7 +42,7 @@ int Juego::getColumnas() const
     return this->columnas;
 }
 
-int** Juego::iniciarJuego(int segundos)
+int** Juego::iniciarJuego()
 {
     //iniciar cronometro
     int** posiciones = new int*[2];
@@ -108,6 +108,18 @@ bool Juego::sePuedeConectarRuta(int fila, int columna) {
         res = (this->ultimaRuta.first == fila - 1) || (this->ultimaRuta.first == fila + 1);
     }
     return res;
+}
+
+bool Juego::comprobarConexion(int fila, int columna) {
+    Estacion* est = estacionCerca(fila, columna);
+    if(est != nullptr) {
+        if(this->rutasDeRonda.size() > 1) {
+            if(est->comprobaciones(fila, columna)) {
+                cout<<"estacion conectada!"<<endl;
+                return true;
+            }
+        }
+    }
 }
 
 pair<int, int> Juego::getCoordenadasRutaIndice(int indice)
@@ -305,6 +317,23 @@ bool Juego::cargarPartida()
         setFilas(c.tableroY);
         setColumnas(c.tableroX);
     }
+}
+
+int* Juego::nuevaRonda() {
+    this->rutasDeRonda.clear(); //se limpian las rutas de la ronda anterior;
+    this->ronda++;
+    //poner nueva estacion
+    int fila;
+    int columna;
+    do {
+        fila = genNumero(this->filas);
+        columna = genNumero(this->columnas);
+    } while(this->tablero->getEnPos(fila, columna) != 0);
+    this->ponerEstacion(fila, columna);
+    int* coords = new int[2];
+    coords[0] = fila;
+    coords[1] = columna;
+    return coords;
 }
 
 Tablero *Juego::getReferenciaTablero()

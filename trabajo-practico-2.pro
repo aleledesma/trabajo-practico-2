@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     comun.cpp \
+    cronometro.cpp \
     estacion.cpp \
     horizontal.cpp \
     juego.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     comun.h \
+    cronometro.h \
     estacion.h \
     horizontal.h \
     juego.h \

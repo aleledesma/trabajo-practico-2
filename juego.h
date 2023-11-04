@@ -52,7 +52,7 @@ public:
     void setColumnas(int c);
     int getFilas() const;
     int getColumnas() const;
-    int** iniciarJuego(int segundos);
+    int** iniciarJuego();
     int genNumero(int max);
     Tablero* getReferenciaTablero();//esto lo necesitamos para acceder al vector de estaciones cuando apretamos el boton "jugar xd"
     void ponerEstacion(int fila, int columuna);
@@ -64,6 +64,9 @@ public:
     Estacion* buscarEstacion(int x, int y); //devuelve puntero null si no la encuentra
     Estacion* estacionCerca(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
+    bool comprobarConexion(int fila, int columna);
+    int* nuevaRonda();
+
 
     void instanciarTablero();
     pair<int, int> getCoordenadasRutaIndice(int indice);

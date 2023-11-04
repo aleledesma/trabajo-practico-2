@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include "juego.h"
+#include "cronometro.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,5 +32,7 @@ private:
     QFrame* frameGameScreen = nullptr;
     QGridLayout* gridLayout = nullptr;
     QPushButton*** matrizBotones = nullptr;
+    Cronometro* cronometro = nullptr;
+    QTimer* timer = nullptr;
 };
 #endif // MAINWINDOW_H

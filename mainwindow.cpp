@@ -8,12 +8,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //valores minimos ej: 10 filas/columnas
-    this->ui->spinBox->setMinimum(10);
-    this->ui->spinBox_2->setMinimum(10);
-    //valores maximos ej: 50 filas/columnas
-    this->ui->spinBox->setMaximum(50);
-    this->ui->spinBox_2->setMaximum(50);
+    //valores minimos
+    this->ui->spinBox->setMinimum(10); //min filas
+    this->ui->spinBox_2->setMinimum(10); //min columnas
+    this->ui->spinBox_3->setMinimum(15); //min 15seg
+    //valores maximos
+    this->ui->spinBox->setMaximum(50); //max filas
+    this->ui->spinBox_2->setMaximum(50); //max columnas
+    this->ui->spinBox_3->setMaximum(60); //max 60seg
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +37,11 @@ void MainWindow::on_pushButton_clicked()
 {
     int filas = this->ui->spinBox->value();
     int columnas = this->ui->spinBox_2->value();
+    int segundos = this->ui->spinBox_3->value();
+    this->cronometro = new Cronometro(segundos);
+    this->timer = new QTimer;
+    this->timer->setInterval(1000); //intervalo de 1seg
+    QObject::connect(this->timer, SIGNAL(timeout()), this, SLOT(onTimer()));
 
     this->frameGameScreen = new QFrame(this);
     this->gridLayout = new QGridLayout(frameGameScreen);
@@ -55,9 +62,18 @@ void MainWindow::on_pushButton_clicked()
                                  bool res = juego->ponerRuta(i, j);
 
                                  if(res) {
-                                      this->matrizBotones[i][j]->setText("v");
+                                     this->matrizBotones[i][j]->setText("v");
+                                     if(this->juego->comprobarConexion(i, j)) {
+                                         this->cronometro->reiniciar();
+                                         int* nuevaEstacionCoords = this->juego->nuevaRonda();
+                                         int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
+                                         QString c;
+                                         c.setNum(tipoEstacion);//aca lo convertimos de int a QString
+
+                                         this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(c);
+                                     }
                                      //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
-                                      this->juego->guardarPartida();
+                                     this->juego->guardarPartida();
                                  }
                              }
             );
@@ -68,7 +84,9 @@ void MainWindow::on_pushButton_clicked()
     //
     this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
-    int** posiciones = this->juego->iniciarJuego(1);
+    int** posiciones = this->juego->iniciarJuego();
+    this->setWindowTitle("Segundos restantes: " + QString::number(segundos));
+    this->timer->start();
 
     //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
     int tipoEstacion = juego->getReferenciaEstacionIndice(0)->getTipo();//aca sacamos el tipo de estacion de adentro del vector
