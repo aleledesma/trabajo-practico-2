@@ -9,10 +9,13 @@ private:
     int contadorSegundos;
 public:
     Cronometro(int segundos);
+    Cronometro();
     void decrementar();
     void reiniciar();
     int getContadorSegundos() const;
     int getSegundosEstablecidos() const;
+    void setSegundosEstablecidos(int s);
+    void setContadorSegundos(int s);
 };
 
 #endif // CRONOMETRO_H

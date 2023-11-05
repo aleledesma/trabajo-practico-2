@@ -17,6 +17,8 @@
 
 #include "qfile.h"
 
+#include "cronometro.h"
+
 using namespace std;
 
 struct estacion{
@@ -36,6 +38,11 @@ struct cantidades{
     int cantidadRutas;
 };
 
+struct tiempo{
+    int segundosRestantes;
+    int segundosTotales;
+};
+
 class Juego
 {
 private:
@@ -46,6 +53,9 @@ private:
     vector<pair<int,int>> rutasDeRonda;
     pair<int, int> ultimaRuta;
     std::vector<Estacion*> estaciones;
+    bool overrideComprobacion;
+    Cronometro* cronometro;
+    tiempo t;
 public:
     Juego(int filas = 10, int columnas = 10);
     void setFilas(int f);
@@ -68,7 +78,10 @@ public:
     int* nuevaRonda();
     int getTipoDeRuta(int fila, int columna);
 
-
+    void setCronometro(Cronometro* c);
+    int getSegundosRestantes();
+    int getSegundosTotales();
+    Cronometro* getReferenciaCronometro();
     void instanciarTablero();
     pair<int, int> getCoordenadasRutaIndice(int indice);
     int getCantidadRutas();

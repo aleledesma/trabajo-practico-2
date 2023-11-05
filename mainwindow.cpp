@@ -63,6 +63,7 @@ void MainWindow::on_pushButton_clicked()
     this->adjustSize(); //ajusta el tamaño al mínimo requerido
 
     this->juego = new Juego(filas, columnas);
+    this->juego->setCronometro(cronometro);
     this->matrizBotones = new QPushButton**[filas];
     for(int i = 0; i<filas; i++) {
         this->matrizBotones[i] = new QPushButton*[columnas];
@@ -118,14 +119,31 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque nos van a meter un 0
 {
+
+
+
     this->juego = new Juego();
+
     if(this->juego->cargarPartida())
     {
         this->frameGameScreen = new QFrame(this);
         this->gridLayout = new QGridLayout(frameGameScreen);
         this->adjustSize();
 
+        this->cronometro = new Cronometro;
+
+        cout<<"main: "<<this->cronometro<<endl;
+        this->timer = new QTimer;
+        this->timer->setInterval(1000); //intervalo de 1seg
+        QObject::connect(this->timer, SIGNAL(timeout()), this, SLOT(onTimer()));
+
+        this->juego->setCronometro(cronometro);
+
         this->juego->cargarPartida();
+
+        this->juego->getReferenciaCronometro()->setContadorSegundos(this->juego->getSegundosRestantes());
+        this->juego->getReferenciaCronometro()->setSegundosEstablecidos(this->juego->getSegundosTotales());
+
         this->juego->instanciarTablero();
 
         this->matrizBotones = new QPushButton**[this->juego->getFilas()];
@@ -139,21 +157,24 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
                 QObject::connect(this->matrizBotones[i][j],
                                  &QPushButton::clicked,
                                  [=](){
-                            bool res = juego->ponerRuta(i, j);
+                                    int tipoRuta = this->juego->getTipoDeRuta(i, j);
+                                    bool res = juego->ponerRuta(i, j);
+                                    if(res) {
+                                        if(tipoRuta == 3) {
+                                            this->matrizBotones[i][j]->setText("━━");
+                                        } else if(tipoRuta == 4) {
+                                            this->matrizBotones[i][j]->setText("┃");
+                                        }
+                                        if(this->juego->comprobarConexion(i, j)) {
+                                        this->cronometro->reiniciar();
+                                        int* nuevaEstacionCoords = this->juego->nuevaRonda();
+                                        int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
 
-                                            if(res) {
-                                                this->matrizBotones[i][j]->setText("*");
-                                                if(this->juego->comprobarConexion(i, j)) {
-                                                    this->cronometro->reiniciar();
-                                                    int* nuevaEstacionCoords = this->juego->nuevaRonda();
-                                                    int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
-
-                                                    this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
-                                                }
-                                                //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
-                                                this->juego->guardarPartida();
-                                            }
-                                     }
+                                        this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
+                                        }
+                                        this->juego->guardarPartida();
+                                    }
+                                   }
                 );
             }
         }
@@ -177,6 +198,9 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
 
             this->matrizBotones[coordenadas.first][coordenadas.second]->setText("*");//esto hay que cambiarlo para que tome el tipo de ruta
         }
+        int** posiciones = this->juego->iniciarJuego();
+        this->setWindowTitle("Segundos restantes: " + QString::number(this->juego->getReferenciaCronometro()->getContadorSegundos()));
+        this->timer->start();
     }
 }
 

@@ -139,6 +139,27 @@ int Juego::getCantidadEstaciones()
 
 bool Juego::ponerRuta(int fila, int columna)//esta poronga no funciona cuando se carga la partida
 {
+
+    if(sePuedeConectarRuta(fila,columna) && overrideComprobacion)
+    {
+        this->tablero->setEnPos(fila,columna,5);
+        pair<int,int> coordsRuta(fila, columna);
+        this->rutasDeRonda.push_back(coordsRuta);
+        this->ultimaRuta = coordsRuta;
+
+        Estacion* est = estacionCerca(fila, columna);
+        if(est != nullptr) {
+            if(this->rutasDeRonda.size() > 1) {
+                if(est->comprobaciones(fila, columna)) {
+                    cout<<"Estacion conectada"<<endl;
+                }
+            }
+        }
+        overrideComprobacion=false;
+        return true;
+    }
+
+
     if(comprobarRuta(fila, columna) && sePuedeConectarRuta(fila, columna)) {
         this->tablero->setEnPos(fila,columna,5); //cambiar para que se calcule si la ruta debe ser v o h
         pair<int,int> coordsRuta(fila, columna);
@@ -256,6 +277,27 @@ int Juego::getTipoDeRuta(int fila, int columna) { // return: 3 = horizontal, 4 =
     }
 }
 
+void Juego::setCronometro(Cronometro *c)
+{
+    cout<<"set: "<<c<<endl;
+    this->cronometro = c;
+}
+
+int Juego::getSegundosRestantes()
+{
+    return t.segundosRestantes;
+}
+
+int Juego::getSegundosTotales()
+{
+    return t.segundosTotales;
+}
+
+Cronometro *Juego::getReferenciaCronometro()
+{
+    return this->cronometro;
+}
+
 Estacion *Juego::getReferenciaEstacionIndice(int indice)
 {
     return this->estaciones[indice];
@@ -296,6 +338,10 @@ void Juego::guardarPartida()
             salida.write((char*)&r,sizeof(ruta));
         }
 
+        tiempo t;
+        t.segundosRestantes=this->getReferenciaCronometro()->getContadorSegundos();
+        t.segundosTotales=this->getReferenciaCronometro()->getSegundosEstablecidos();
+        salida.write((char*)&t,sizeof(tiempo));
 
         salida.close();
     }
@@ -311,6 +357,8 @@ bool Juego::cargarPartida()
         ruta r;
         estacion e;
         Estacion* nuevaEstacion;
+
+        cout<<"carga: "<<this->getReferenciaCronometro()<<endl;
 
         entrada.read((char*)&c,sizeof(cantidades));//TAMAÑO TABLERO, CANTIDAD ESTACIONES, CANTIDAD RUTAS
 
@@ -335,12 +383,21 @@ bool Juego::cargarPartida()
             this->ultimaRuta.second = r.ultimaRuta.second;
             this->rutasDeRonda.push_back(this->ultimaRuta);
         }
+
+        entrada.read((char*)&t,sizeof(tiempo));
+
+
         entrada.close();
 
         setFilas(c.tableroY);
         setColumnas(c.tableroX);
+        overrideComprobacion=true;
+        return true;
     }
+    return false;
 }
+
+
 
 int* Juego::nuevaRonda() {
     this->rutasDeRonda.clear(); //se limpian las rutas de la ronda anterior;
