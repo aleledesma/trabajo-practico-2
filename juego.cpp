@@ -408,7 +408,7 @@ int* Juego::nuevaRonda() {
     do {
         fila = genNumero(this->filas);
         columna = genNumero(this->columnas);
-    } while(this->tablero->getEnPos(fila, columna) != 0 && estacionCerca(fila,columna)==nullptr);
+    } while(this->tablero->getEnPos(fila, columna) != 0 && estacionCerca(fila,columna)!=nullptr);
     this->ponerEstacion(fila, columna);
     int* coords = new int[2];
     coords[0] = fila;
