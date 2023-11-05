@@ -17,7 +17,7 @@ bool Tablero::setEnPos(int fila, int columna, int valor)
 {
     if((fila < this->filas) && (columna < this->columnas) && (this->matriz[fila][columna] == 0)) {
         
-        if(valor==3 && columna==0)//esto se ve horrible pero funciona, si te da el tiempo, corregilo
+        if(valor==3 && columna==0)
         {
             columna++;
         }
