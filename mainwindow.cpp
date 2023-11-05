@@ -74,10 +74,14 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
+                                 int tipoRuta = this->juego->getTipoDeRuta(i, j);
                                  bool res = juego->ponerRuta(i, j);
-
                                  if(res) {
-                                     this->matrizBotones[i][j]->setText("*");
+                                     if(tipoRuta == 3) {
+                                         this->matrizBotones[i][j]->setText("━━");
+                                     } else if(tipoRuta == 4) {
+                                         this->matrizBotones[i][j]->setText("┃");
+                                     }
                                      if(this->juego->comprobarConexion(i, j)) {
                                          this->cronometro->reiniciar();
                                          int* nuevaEstacionCoords = this->juego->nuevaRonda();
@@ -173,5 +177,17 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
 
             this->matrizBotones[coordenadas.first][coordenadas.second]->setText("*");//esto hay que cambiarlo para que tome el tipo de ruta
         }
+    }
+}
+
+void MainWindow::onTimer()
+{
+    this->cronometro->decrementar();
+    this->setWindowTitle("Segundos restantes: " + QString::number(this->cronometro->getContadorSegundos()));
+
+    //si se pierde
+    if(this->cronometro->getContadorSegundos() == 0) {
+        this->timer->stop();
+        this->setWindowTitle("Perdiste!");
     }
 }

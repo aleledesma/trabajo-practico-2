@@ -233,6 +233,29 @@ Estacion *Juego::buscarEstacion(int x, int y)
     return estBuscada;
 }
 
+int Juego::getTipoDeRuta(int fila, int columna) { // return: 3 = horizontal, 4 = vertical, -1 = error
+    if(this->rutasDeRonda.size() == 0) { //si es la primer ruta de la ronda, su sentido debe calcularse en  base a la estacion de la cual sale
+        Estacion* est = estacionCerca(fila, columna);
+        if(est != nullptr) { //si existe una estacion cerca (puede ser redundante ya que esta comprobacion se hace al colocar la ruta
+            if(est->getX() == fila) {//horizontal
+                return 3;
+            } else if(est->getY() == columna) {//vertical
+                return 4;
+            }
+        }
+        return -1; //error
+    }
+    else { //si no es la primer ruta de la ronda
+        //Importante: el metodo debe llamarse antes de colocar la nueva ruta
+        if(this->ultimaRuta.first == fila) {//horizontal
+            return 3;
+        } else if(this->ultimaRuta.second == columna) {//vertical
+            return 4;
+        }
+        return -1; //error
+    }
+}
+
 Estacion *Juego::getReferenciaEstacionIndice(int indice)
 {
     return this->estaciones[indice];

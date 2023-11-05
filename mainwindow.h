@@ -34,5 +34,8 @@ private:
     QPushButton*** matrizBotones = nullptr;
     Cronometro* cronometro = nullptr;
     QTimer* timer = nullptr;
+
+private slots:
+    void onTimer();
 };
 #endif // MAINWINDOW_H
