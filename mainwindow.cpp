@@ -223,6 +223,7 @@ void MainWindow::onTimer()
         }
     }
 }
+
 void MainWindow::cargarConfiguracion()
 {
     int f;
