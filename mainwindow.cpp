@@ -59,10 +59,15 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
+                                 int tipoRuta = this->juego->getTipoDeRuta(i, j);
                                  bool res = juego->ponerRuta(i, j);
 
                                  if(res) {
-                                     this->matrizBotones[i][j]->setText("v");
+                                     if(tipoRuta == 3) {
+                                         this->matrizBotones[i][j]->setText("━━");
+                                     } else if(tipoRuta == 4) {
+                                         this->matrizBotones[i][j]->setText("┃");
+                                     }
                                      if(this->juego->comprobarConexion(i, j)) {
                                          this->cronometro->reiniciar();
                                          int* nuevaEstacionCoords = this->juego->nuevaRonda();
