@@ -1,5 +1,4 @@
 una vez conectada una estacion comun se deben instanciar 2 estaciones
-estaciones aparecen en los bordes
 condicion victoria	//alejo
 estaciones aparecen arriba de las rutas
 cuando se conectan las estaciones, al cargar la partida desaparecen las rutas que fueron conectadas
