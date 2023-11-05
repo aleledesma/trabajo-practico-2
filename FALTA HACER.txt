@@ -1,0 +1,8 @@
+cargado no funciuna	//ramiro
+una vez conectada una estacion comun se deben instanciar 2 estaciones
+estaciones aparecen en los bordes
+condicion victoria	//alejo
+estaciones aparecen arriba de las rutas
+
+
+BORRAR LOS ITEMS UNA VEZ ESTEN RESUELTOS Y MARCAR EN LOS QUE SE ESTE TRABAJANDO
