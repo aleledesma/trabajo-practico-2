@@ -191,3 +191,36 @@ void MainWindow::onTimer()
         this->setWindowTitle("Perdiste!");
     }
 }
+void MainWindow::cargarConfiguracion()
+{
+    int f;
+    int c;
+    int s;
+    QFile entrada("config.txt");
+    if(entrada.size()==0)
+    {
+        entrada.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream ent(&entrada);
+        ent<<10<<"\n"<<10<<"\n"<<15<<"\n";
+        entrada.close();
+    }
+    else
+    {
+        entrada.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream ent(&entrada);
+        QString str;
+        str = ent.readLine();
+        f=str.toInt();
+        str = ent.readLine();
+        c=str.toInt();
+        str = ent.readLine();
+        s=str.toInt();
+
+        this->ui->spinBox->setValue(f);
+        this->ui->spinBox_2->setValue(c);
+        this->ui->spinBox_3->setValue(s);
+
+        entrada.close();
+    }
+}
+
