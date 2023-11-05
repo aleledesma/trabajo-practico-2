@@ -16,7 +16,7 @@ Tablero::Tablero(int filas, int columnas)
 bool Tablero::setEnPos(int fila, int columna, int valor)
 {
     if((fila < this->filas) && (columna < this->columnas) && (this->matriz[fila][columna] == 0)) {
-        
+
         if(valor==3 && columna==0)
         {
             columna++;
