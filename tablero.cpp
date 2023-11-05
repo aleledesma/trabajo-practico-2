@@ -16,6 +16,23 @@ Tablero::Tablero(int filas, int columnas)
 bool Tablero::setEnPos(int fila, int columna, int valor)
 {
     if((fila < this->filas) && (columna < this->columnas) && (this->matriz[fila][columna] == 0)) {
+        std::cout<<"Fila: "<<fila<<" Max Fila: "<<this->filas<<" Columna: "<<columna<<" Max Columa: "<<this->columnas<<std::endl;
+        if(valor==3 && columna==0)//esto se ve horrible pero funciona, si te da el tiempo, corregilo
+        {
+            columna++;
+        }
+        if(valor==3 && columna==this->columnas-1)
+        {
+            columna--;
+        }
+        if(valor==4 && fila==0)
+        {
+            fila++;
+        }
+        if(valor==4 && fila==this->filas-1)
+        {
+            fila--;
+        }
         this->matriz[fila][columna] = valor;
         return true;
     }

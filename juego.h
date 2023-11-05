@@ -66,7 +66,6 @@ public:
     bool sePuedeConectarRuta(int fila, int columna);
     bool comprobarConexion(int fila, int columna);
     int* nuevaRonda();
-    int getTipoDeRuta(int fila, int columna);
 
 
     void instanciarTablero();

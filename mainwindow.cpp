@@ -33,6 +33,21 @@ MainWindow::~MainWindow()
     delete[] matrizBotones;
 }
 
+QString devolverTipoEstacion(int t)
+{
+    QString c;
+
+    switch (t) {
+           case 1: c="╬"; break;//aca van las comunes
+           case 2: c="╬"; break;
+           case 3: c="═"; break;
+           case 4: c="║"; break;
+           default: break;
+    }
+
+    return c;
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     int filas = this->ui->spinBox->value();
@@ -59,23 +74,16 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
-                                 int tipoRuta = this->juego->getTipoDeRuta(i, j);
                                  bool res = juego->ponerRuta(i, j);
 
                                  if(res) {
-                                     if(tipoRuta == 3) {
-                                         this->matrizBotones[i][j]->setText("━━");
-                                     } else if(tipoRuta == 4) {
-                                         this->matrizBotones[i][j]->setText("┃");
-                                     }
+                                     this->matrizBotones[i][j]->setText("*");
                                      if(this->juego->comprobarConexion(i, j)) {
                                          this->cronometro->reiniciar();
                                          int* nuevaEstacionCoords = this->juego->nuevaRonda();
                                          int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
-                                         QString c;
-                                         c.setNum(tipoEstacion);//aca lo convertimos de int a QString
 
-                                         this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(c);
+                                         this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
                                      }
                                      //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
                                      this->juego->guardarPartida();
@@ -95,19 +103,16 @@ void MainWindow::on_pushButton_clicked()
 
     //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
     int tipoEstacion = juego->getReferenciaEstacionIndice(0)->getTipo();//aca sacamos el tipo de estacion de adentro del vector
-    QString c;
-    c.setNum(tipoEstacion);//aca lo convertimos de int a QString
 
-    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(c);//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
+    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(devolverTipoEstacion(tipoEstacion));//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
 
     tipoEstacion = juego->getReferenciaEstacionIndice(1)->getTipo();
-    c.setNum(tipoEstacion);
 
-    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(c);
+    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(devolverTipoEstacion(tipoEstacion));
 
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque nos van a meter un 0
 {
     this->juego = new Juego();
     if(this->juego->cargarPartida())
@@ -130,8 +135,20 @@ void MainWindow::on_pushButton_3_clicked()
                 QObject::connect(this->matrizBotones[i][j],
                                  &QPushButton::clicked,
                                  [=](){
-                                        this->matrizBotones[i][j]->setText("v");
-                                        this->juego->guardarPartida();
+                            bool res = juego->ponerRuta(i, j);
+
+                                            if(res) {
+                                                this->matrizBotones[i][j]->setText("*");
+                                                if(this->juego->comprobarConexion(i, j)) {
+                                                    this->cronometro->reiniciar();
+                                                    int* nuevaEstacionCoords = this->juego->nuevaRonda();
+                                                    int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
+
+                                                    this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
+                                                }
+                                                //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
+                                                this->juego->guardarPartida();
+                                            }
                                      }
                 );
             }
@@ -157,7 +174,7 @@ void MainWindow::on_pushButton_3_clicked()
             pair<int,int> coordenadas;
             coordenadas = juego->getCoordenadasRutaIndice(i);
 
-            this->matrizBotones[coordenadas.first][coordenadas.second]->setText("v");//esto hay que cambiarlo para que tome el tipo de ruta
+            this->matrizBotones[coordenadas.first][coordenadas.second]->setText("*");//esto hay que cambiarlo para que tome el tipo de ruta
         }
     }
 }

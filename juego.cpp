@@ -49,7 +49,7 @@ int** Juego::iniciarJuego()
     for(int i = 0; i<2; i++) {
         posiciones[i] = new int[2];
         //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
-        int fila = this->genNumero(this->filas);
+        int fila = this->genNumero(this->filas);//fantastica idea, no hay tiempo para implementarla
         int columna = this->genNumero(this->columnas);
         posiciones[i][0] = fila;
         posiciones[i][1] = columna;
@@ -96,7 +96,7 @@ Estacion* Juego::estacionCerca(int fila, int columna) {
     est = buscarEstacion(fila, columna + 1); //checkea derecha
     if(est != nullptr) return est; //si hay la devuelve
     return nullptr; //si no encuentra ninguna estacion devuelve nullptr
-}
+}//dale maquina, gracias por la explicacion
 
 bool Juego::sePuedeConectarRuta(int fila, int columna) {
     bool res = false;
@@ -137,7 +137,7 @@ int Juego::getCantidadEstaciones()
     return this->estaciones.size();
 }
 
-bool Juego::ponerRuta(int fila, int columna)
+bool Juego::ponerRuta(int fila, int columna)//esta poronga no funciona cuando se carga la partida
 {
     if(comprobarRuta(fila, columna) && sePuedeConectarRuta(fila, columna)) {
         this->tablero->setEnPos(fila,columna,5); //cambiar para que se calcule si la ruta debe ser v o h
@@ -231,29 +231,6 @@ Estacion *Juego::buscarEstacion(int x, int y)
         estBuscada = *res;
     }
     return estBuscada;
-}
-
-int Juego::getTipoDeRuta(int fila, int columna) { // return: 3 = horizontal, 4 = vertical, -1 = error
-    if(this->rutasDeRonda.size() == 0) { //si es la primer ruta de la ronda, su sentido debe calcularse en  base a la estacion de la cual sale
-        Estacion* est = estacionCerca(fila, columna);
-        if(est != nullptr) { //si existe una estacion cerca (puede ser redundante ya que esta comprobacion se hace al colocar la ruta
-            if(est->getX() == fila) {//horizontal
-                return 3;
-            } else if(est->getY() == columna) {//vertical
-                return 4;
-            }
-        }
-        return -1; //error
-    }
-    else { //si no es la primer ruta de la ronda
-        //Importante: el metodo debe llamarse antes de colocar la nueva ruta
-        if(this->ultimaRuta.first == fila) {//horizontal
-            return 3;
-        } else if(this->ultimaRuta.second == columna) {//vertical
-            return 4;
-        }
-        return -1; //error
-    }
 }
 
 Estacion *Juego::getReferenciaEstacionIndice(int indice)
