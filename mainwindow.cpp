@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "tablero.h"
 #include "juego.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -211,8 +212,15 @@ void MainWindow::onTimer()
 
     //si se pierde
     if(this->cronometro->getContadorSegundos() == 0) {
+        QMessageBox mensaje;
+        mensaje.setText("Perdiste!");
+        mensaje.setStandardButtons(QMessageBox::Ok);
         this->timer->stop();
         this->setWindowTitle("Perdiste!");
+        int btnRes = mensaje.exec();
+        if(btnRes == QMessageBox::Ok) {
+            this->close();
+        }
     }
 }
 void MainWindow::cargarConfiguracion()
