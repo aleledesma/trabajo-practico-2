@@ -4,6 +4,7 @@ condicion victoria	//alejo
 estaciones aparecen arriba de las rutas
 estaciones aparecen una al lado de la otra
 cargado de partida muestra asteriscos en vez de direccion de ruta
+cuando se conectan las estaciones, al cargar la partida desaparecen las rutas que fueron conectadas
 
 
 BORRAR LOS ITEMS UNA VEZ ESTEN RESUELTOS Y MARCAR EN LOS QUE SE ESTE TRABAJANDO
