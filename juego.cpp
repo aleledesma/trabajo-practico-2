@@ -67,6 +67,27 @@ int Juego::genNumero(int max)
 
 void Juego::ponerEstacion(int fila, int columuna)
 {
+    bool colocada=false;
+    for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
+    {
+        /*if(!comprobarAledanio())
+        {
+            fila = rand()%this->filas;
+            columnas = rand()%this->columnas;
+            colocada=false;
+        }
+        else
+        {
+            i=1000;
+            colocada=true;
+        }*/
+    }
+    if(!colocada)
+    {
+        victoria();
+        cout<<"victoria"<<endl;
+    }
+
     if(fila < this->filas && columuna < this->columnas) {
         Estacion* nuevaEstacion;
         int tipoEstacion = rand() % 4+1;
@@ -140,7 +161,7 @@ int Juego::getCantidadEstaciones()
 bool Juego::ponerRuta(int fila, int columna)//esta poronga no funciona cuando se carga la partida
 {
 
-    if(sePuedeConectarRuta(fila,columna) && overrideComprobacion)
+    if(sePuedeConectarRuta(fila,columna) && overrideComprobacion)//parche inmundo pero funciona
     {
         this->tablero->setEnPos(fila,columna,5);
         pair<int,int> coordsRuta(fila, columna);
@@ -275,6 +296,30 @@ int Juego::getTipoDeRuta(int fila, int columna) { // return: 3 = horizontal, 4 =
         }
         return -1; //error
     }
+}
+
+void Juego::victoria()
+{
+    QMessageBox mensaje;
+
+    mensaje.setText("Ganaste!");
+    mensaje.setStandardButtons(QMessageBox::Ok);
+}
+
+bool Juego::comprobarAledanio()
+{
+    for(int i=-1; i<2; i++)
+    {
+        for(int j=-1; j<2; j++)
+        {
+            cout<<this->tablero->getEnPos(i,j);
+            if(this->tablero->getEnPos(i,j)!=0)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void Juego::setCronometro(Cronometro *c)

@@ -19,6 +19,8 @@
 
 #include "cronometro.h"
 
+#include <QMessageBox>
+
 using namespace std;
 
 struct estacion{
@@ -78,6 +80,8 @@ public:
     int* nuevaRonda();
     int getTipoDeRuta(int fila, int columna);
 
+    void victoria();
+    bool comprobarAledanio();
     void setCronometro(Cronometro* c);
     int getSegundosRestantes();
     int getSegundosTotales();

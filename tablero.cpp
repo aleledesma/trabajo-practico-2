@@ -41,6 +41,11 @@ bool Tablero::setEnPos(int fila, int columna, int valor)
 
 int Tablero::getEnPos(int fila, int columna)
 {
+    std::cout<<fila<<columna<<std::endl;
+    if(fila<0 || columna<0)
+    {
+        return -1;
+    }
     if(fila < this->filas && columna < this->columnas) {
         return this->matriz[fila][columna];
     }
