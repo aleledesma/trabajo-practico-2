@@ -39,10 +39,10 @@ QString devolverTipoEstacion(int t)
     QString c;
 
     switch (t) {
-           case 1: c="╬"; break;//aca van las comunes
-           case 2: c="╬"; break;
-           case 3: c="═"; break;
-           case 4: c="║"; break;
+           case 1: c="C"; break;
+           case 2: c="M"; break;
+           case 3: c="H"; break;
+           case 4: c="V"; break;
            default: break;
     }
 
@@ -76,20 +76,17 @@ void MainWindow::on_pushButton_clicked()
             QObject::connect(this->matrizBotones[i][j],
                              &QPushButton::clicked,
                              [=](){
-                                 int tipoRuta = this->juego->getTipoDeRuta(i, j);
                                  bool res = juego->ponerRuta(i, j);
                                  if(res) {
-                                     if(tipoRuta == 3) {
-                                         this->matrizBotones[i][j]->setText("━━");
-                                     } else if(tipoRuta == 4) {
-                                         this->matrizBotones[i][j]->setText("┃");
-                                     }
+                                     this->matrizBotones[i][j]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(180,180,180); }\n");
+                                     this->matrizBotones[i][j]->setText("*");
                                      if(this->juego->comprobarConexion(i, j)) {
                                          this->cronometro->reiniciar();
                                          int* nuevaEstacionCoords = this->juego->nuevaRonda();
                                          int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
 
                                          this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
+                                         this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(100,180,100); }\n");
                                      }
                                      //juego->comprobarConexionEstaciones();//cada vez que hacemos click, se comprueba si las estaciones estan conectadas
                                      this->juego->guardarPartida();
@@ -111,18 +108,18 @@ void MainWindow::on_pushButton_clicked()
     int tipoEstacion = juego->getReferenciaEstacionIndice(0)->getTipo();//aca sacamos el tipo de estacion de adentro del vector
 
     this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setText(devolverTipoEstacion(tipoEstacion));//aca lo mostramos en el tablero, despues le ponemos una fotito en base al numero
+    this->matrizBotones[posiciones[0][0]][posiciones[0][1]]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(100,180,100); }\n");
 
     tipoEstacion = juego->getReferenciaEstacionIndice(1)->getTipo();
 
     this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setText(devolverTipoEstacion(tipoEstacion));
+    this->matrizBotones[posiciones[1][0]][posiciones[1][1]]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(100,180,100); }\n");
+
 
 }
 
 void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque nos van a meter un 0
 {
-
-
-
     this->juego = new Juego();
 
     if(this->juego->cargarPartida())
@@ -133,7 +130,6 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
 
         this->cronometro = new Cronometro;
 
-        cout<<"main: "<<this->cronometro<<endl;
         this->timer = new QTimer;
         this->timer->setInterval(1000); //intervalo de 1seg
         QObject::connect(this->timer, SIGNAL(timeout()), this, SLOT(onTimer()));
@@ -158,20 +154,17 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
                 QObject::connect(this->matrizBotones[i][j],
                                  &QPushButton::clicked,
                                  [=](){
-                                    int tipoRuta = this->juego->getTipoDeRuta(i, j);
                                     bool res = juego->ponerRuta(i, j);
                                     if(res) {
-                                        if(tipoRuta == 3) {
-                                            this->matrizBotones[i][j]->setText("━━");
-                                        } else if(tipoRuta == 4) {
-                                            this->matrizBotones[i][j]->setText("┃");
-                                        }
+                                        this->matrizBotones[i][j]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(180,180,180); }\n");
+                                        this->matrizBotones[i][j]->setText("*");
                                         if(this->juego->comprobarConexion(i, j)) {
                                         this->cronometro->reiniciar();
                                         int* nuevaEstacionCoords = this->juego->nuevaRonda();
                                         int tipoEstacion = juego->getReferenciaEstacionIndice(this->juego->getCantidadEstaciones() - 1)->getTipo();
 
                                         this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setText(devolverTipoEstacion(tipoEstacion));
+                                        this->matrizBotones[nuevaEstacionCoords[0]][nuevaEstacionCoords[1]]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(100,180,100); }\n");
                                         }
                                         this->juego->guardarPartida();
                                     }
@@ -191,13 +184,15 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
             int tipoEstacion = juego->getReferenciaEstacionIndice(i)->getTipo();
 
             this->matrizBotones[x][y]->setText(devolverTipoEstacion(tipoEstacion));
+            this->matrizBotones[x][y]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(100,180,100); }\n");
         }
         for(int i=0; i<this->juego->getCantidadRutas(); i++)
         {
             pair<int,int> coordenadas;
             coordenadas = juego->getCoordenadasRutaIndice(i);
 
-            this->matrizBotones[coordenadas.first][coordenadas.second]->setText("*");//esto hay que cambiarlo para que tome el tipo de ruta
+            this->matrizBotones[coordenadas.first][coordenadas.second]->setText("*");
+            this->matrizBotones[coordenadas.first][coordenadas.second]->setStyleSheet("QPushButton { background-color: grey; }\n""QPushButton:enabled { background-color: rgb(180,180,180); }\n");
         }
         int** posiciones = this->juego->iniciarJuego();
         this->setWindowTitle("Segundos restantes: " + QString::number(this->juego->getReferenciaCronometro()->getContadorSegundos()));

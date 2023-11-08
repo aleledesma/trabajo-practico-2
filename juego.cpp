@@ -65,12 +65,14 @@ int Juego::genNumero(int max)
     return num;
 }
 
-void Juego::ponerEstacion(int fila, int columuna)
+void Juego::ponerEstacion(int fila, int columna)
 {
     bool colocada=false;
+    int tipoEstacion;
     for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
     {
-        /*if(!comprobarAledanio())
+        tipoEstacion = rand() % 4+1;
+        if(!validezEstacion(fila,columna,tipoEstacion))
         {
             fila = rand()%this->filas;
             columnas = rand()%this->columnas;
@@ -78,27 +80,24 @@ void Juego::ponerEstacion(int fila, int columuna)
         }
         else
         {
-            i=1000;
             colocada=true;
-        }*/
+            i=1000;
+        }
     }
     if(!colocada)
     {
         victoria();
-        cout<<"victoria"<<endl;
+        return;
     }
 
-    if(fila < this->filas && columuna < this->columnas) {
+    if(fila < this->filas && columna < this->columnas) {
         Estacion* nuevaEstacion;
-        int tipoEstacion = rand() % 4+1;
-      //  std::cout<<"Tipo de est: "<<tipoEstacion<<std::endl;
-        this->tablero->setEnPos(fila,columuna,tipoEstacion);
-       // std::cout<<"Est: "<<this->matriz[fila][columuna]<<std::endl;
+        this->tablero->setEnPos(fila,columna,tipoEstacion);
         switch(tipoEstacion) {
-        case 1: nuevaEstacion = new Comun(fila, columuna, this->tablero); nuevaEstacion->setTipo(1); break;
-        case 2: nuevaEstacion = new Multiple(fila, columuna, this->tablero); nuevaEstacion->setTipo(2); break;
-        case 3: nuevaEstacion = new Horizontal(fila, columuna, this->tablero); nuevaEstacion->setTipo(3); break;
-        case 4: nuevaEstacion = new Vertical(fila, columuna, this->tablero); nuevaEstacion->setTipo(4); break;
+        case 1: nuevaEstacion = new Comun(fila, columna, this->tablero); nuevaEstacion->setTipo(1); break;
+        case 2: nuevaEstacion = new Multiple(fila, columna, this->tablero); nuevaEstacion->setTipo(2); break;
+        case 3: nuevaEstacion = new Horizontal(fila, columna, this->tablero); nuevaEstacion->setTipo(3); break;
+        case 4: nuevaEstacion = new Vertical(fila, columna, this->tablero); nuevaEstacion->setTipo(4); break;
         default: break;
         }
         this->estaciones.push_back(nuevaEstacion);
@@ -158,7 +157,7 @@ int Juego::getCantidadEstaciones()
     return this->estaciones.size();
 }
 
-bool Juego::ponerRuta(int fila, int columna)//esta poronga no funciona cuando se carga la partida
+bool Juego::ponerRuta(int fila, int columna)
 {
 
     if(sePuedeConectarRuta(fila,columna) && overrideComprobacion)//parche inmundo pero funciona
@@ -182,7 +181,7 @@ bool Juego::ponerRuta(int fila, int columna)//esta poronga no funciona cuando se
 
 
     if(comprobarRuta(fila, columna) && sePuedeConectarRuta(fila, columna)) {
-        this->tablero->setEnPos(fila,columna,5); //cambiar para que se calcule si la ruta debe ser v o h
+        this->tablero->setEnPos(fila,columna,5);//5 es ruta
         pair<int,int> coordsRuta(fila, columna);
         this->rutasDeRonda.push_back(coordsRuta);
         this->ultimaRuta = coordsRuta;
@@ -275,29 +274,6 @@ Estacion *Juego::buscarEstacion(int x, int y)
     return estBuscada;
 }
 
-int Juego::getTipoDeRuta(int fila, int columna) { // return: 3 = horizontal, 4 = vertical, -1 = error
-    if(this->rutasDeRonda.size() == 0) { //si es la primer ruta de la ronda, su sentido debe calcularse en  base a la estacion de la cual sale
-        Estacion* est = estacionCerca(fila, columna);
-        if(est != nullptr) { //si existe una estacion cerca (puede ser redundante ya que esta comprobacion se hace al colocar la ruta
-            if(est->getX() == fila) {//horizontal
-                return 3;
-            } else if(est->getY() == columna) {//vertical
-                return 4;
-            }
-        }
-        return -1; //error
-    }
-    else { //si no es la primer ruta de la ronda
-        //Importante: el metodo debe llamarse antes de colocar la nueva ruta
-        if(this->ultimaRuta.first == fila) {//horizontal
-            return 3;
-        } else if(this->ultimaRuta.second == columna) {//vertical
-            return 4;
-        }
-        return -1; //error
-    }
-}
-
 void Juego::victoria()
 {
     QMessageBox mensaje;
@@ -306,25 +282,8 @@ void Juego::victoria()
     mensaje.setStandardButtons(QMessageBox::Ok);
 }
 
-bool Juego::comprobarAledanio()
-{
-    for(int i=-1; i<2; i++)
-    {
-        for(int j=-1; j<2; j++)
-        {
-            cout<<this->tablero->getEnPos(i,j);
-            if(this->tablero->getEnPos(i,j)!=0)
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 void Juego::setCronometro(Cronometro *c)
 {
-    cout<<"set: "<<c<<endl;
     this->cronometro = c;
 }
 
@@ -403,8 +362,6 @@ bool Juego::cargarPartida()
         estacion e;
         Estacion* nuevaEstacion;
 
-        cout<<"carga: "<<this->getReferenciaCronometro()<<endl;
-
         entrada.read((char*)&c,sizeof(cantidades));//TAMAÑO TABLERO, CANTIDAD ESTACIONES, CANTIDAD RUTAS
 
         for(int i=0; i<c.cantidadEstaciones; i++)//ESTACIONES
@@ -459,6 +416,32 @@ int* Juego::nuevaRonda() {
     coords[0] = fila;
     coords[1] = columna;
     return coords;
+}
+
+bool Juego::validezEstacion(int fila, int columna, int tipo)//corroborar que la posicion de estacion sea valida
+{
+    if(tipo==1 || tipo==2)
+    {
+        if(this->tablero->getEnPos(fila,columna)!=0)
+        {
+            return false;
+        }
+    }
+    if(tipo==3)
+    {
+        if(columna==0 || columna==this->columnas-1 || this->tablero->getEnPos(fila,columna)!=0)
+        {
+            return false;
+        }
+    }
+    if(tipo==4)
+    {
+        if(fila==0 || fila==this->filas-1 || this->tablero->getEnPos(fila,columna)!=0)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 Tablero *Juego::getReferenciaTablero()

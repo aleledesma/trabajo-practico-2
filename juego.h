@@ -66,22 +66,21 @@ public:
     int getColumnas() const;
     int** iniciarJuego();
     int genNumero(int max);
-    Tablero* getReferenciaTablero();//esto lo necesitamos para acceder al vector de estaciones cuando apretamos el boton "jugar xd"
-    void ponerEstacion(int fila, int columuna);
+    Tablero* getReferenciaTablero();
+    void ponerEstacion(int fila, int columna);
     bool ponerRuta(int fila, int columna);
     bool comprobarRuta(int fila, int columna);
     int getTipoEstacion(int indice);
     bool comprobarExistencia(int fila, int columna, char* entidad);
     bool comprobarDisponiblidadDeConexion(int fila, int columna, char* entidad, int filaOriginal = 0, int columnaOriginal = 0);
-    Estacion* buscarEstacion(int x, int y); //devuelve puntero null si no la encuentra
+    Estacion* buscarEstacion(int x, int y);
     Estacion* estacionCerca(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
     bool comprobarConexion(int fila, int columna);
     int* nuevaRonda();
-    int getTipoDeRuta(int fila, int columna);
 
+    bool validezEstacion(int fila, int columna, int tipo);
     void victoria();
-    bool comprobarAledanio();
     void setCronometro(Cronometro* c);
     int getSegundosRestantes();
     int getSegundosTotales();
