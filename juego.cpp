@@ -49,7 +49,7 @@ int** Juego::iniciarJuego()
     for(int i = 0; i<2; i++) {
         posiciones[i] = new int[2];
         //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
-        int fila = this->genNumero(this->filas);//fantastica idea, no hay tiempo para implementarla
+        int fila = this->genNumero(this->filas);
         int columna = this->genNumero(this->columnas);
         posiciones[i][0] = fila;
         posiciones[i][1] = columna;
@@ -72,7 +72,7 @@ void Juego::ponerEstacion(int fila, int columna)
     for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
     {
         tipoEstacion = rand() % 4+1;
-        if(!validezEstacion(fila,columna,tipoEstacion))
+        if((!validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) != nullptr))
         {
             fila = rand()%this->filas;
             columnas = rand()%this->columnas;
@@ -116,7 +116,7 @@ Estacion* Juego::estacionCerca(int fila, int columna) {
     est = buscarEstacion(fila, columna + 1); //checkea derecha
     if(est != nullptr) return est; //si hay la devuelve
     return nullptr; //si no encuentra ninguna estacion devuelve nullptr
-}//dale maquina, gracias por la explicacion
+}
 
 bool Juego::sePuedeConectarRuta(int fila, int columna) {
     bool res = false;
