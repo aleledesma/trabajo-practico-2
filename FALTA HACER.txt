@@ -1,3 +1,4 @@
+estaciones aparecen pegadas (aledañas)
 una vez conectada una estacion comun se deben instanciar 2 estaciones
 condicion victoria	//alejo
 estaciones aparecen arriba de las rutas
