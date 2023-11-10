@@ -166,6 +166,7 @@ bool Juego::ponerRuta(int fila, int columna)
         pair<int,int> coordsRuta(fila, columna);
         this->rutasDeRonda.push_back(coordsRuta);
         this->ultimaRuta = coordsRuta;
+        this->rutasTotales.push_back(ultimaRuta);
 
         Estacion* est = estacionCerca(fila, columna);
         if(est != nullptr) {
@@ -185,6 +186,7 @@ bool Juego::ponerRuta(int fila, int columna)
         pair<int,int> coordsRuta(fila, columna);
         this->rutasDeRonda.push_back(coordsRuta);
         this->ultimaRuta = coordsRuta;
+        this->rutasTotales.push_back(ultimaRuta);
 
         Estacion* est = estacionCerca(fila, columna);
         if(est != nullptr) {
@@ -312,7 +314,7 @@ void Juego::guardarPartida()
     QFile salida("partida.dat");
     salida.open(QIODevice::WriteOnly);
 
-    //se debe guardar en el siguiente orden, tamaño tablero, cantidad estaciones, cantidad rutas, estaciones, rutas, ultima ruta
+    //se debe guardar en el siguiente orden, tamaño tablero, cantidad estaciones, cantidad rutas, estaciones, rutas, ultima ruta, tiempo
 
     if(salida.isOpen()) {
 
@@ -321,7 +323,7 @@ void Juego::guardarPartida()
         c.tableroX=getColumnas();
         c.tableroY=getFilas();
         c.cantidadEstaciones = estaciones.size();
-        c.cantidadRutas = rutasDeRonda.size();
+        c.cantidadRutas = rutasTotales.size();
         salida.write((char*)&c,sizeof(cantidades));
 
         //ESTACIONES
@@ -335,19 +337,21 @@ void Juego::guardarPartida()
 
         //RUTAS, ULTIMA RUTA
         ruta r;
-        for(int i=0; i<rutasDeRonda.size(); i++)
+        for(int i=0; i<rutasTotales.size(); i++)
         {
-            r.ultimaRuta.first = rutasDeRonda[i].first;
-            r.ultimaRuta.second = rutasDeRonda[i].second;
+            r.ultimaRuta.first = rutasTotales[i].first;
+            r.ultimaRuta.second = rutasTotales[i].second;
             salida.write((char*)&r,sizeof(ruta));
         }
 
+        //TIEMPO
         tiempo t;
         t.segundosRestantes=this->getReferenciaCronometro()->getContadorSegundos();
         t.segundosTotales=this->getReferenciaCronometro()->getSegundosEstablecidos();
         salida.write((char*)&t,sizeof(tiempo));
 
         salida.close();
+
     }
 }
 
@@ -384,6 +388,7 @@ bool Juego::cargarPartida()
             this->ultimaRuta.first = r.ultimaRuta.first;
             this->ultimaRuta.second = r.ultimaRuta.second;
             this->rutasDeRonda.push_back(this->ultimaRuta);
+            this->rutasTotales.push_back(this->ultimaRuta);
         }
 
         entrada.read((char*)&t,sizeof(tiempo));
