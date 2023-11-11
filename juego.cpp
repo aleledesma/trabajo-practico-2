@@ -48,8 +48,8 @@ int** Juego::iniciarJuego()
     for(int i = 0; i<2; i++) {
         posiciones[i] = new int[2];
         //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
-        int fila = this->genNumero(this->filas);
-        int columna = this->genNumero(this->columnas);
+        int fila = rand() % (this->filas-1) + 1;
+        int columna = rand() % (this->columnas-1) + 1;
         posiciones[i][0] = fila;
         posiciones[i][1] = columna;
         this->ponerEstacion(fila,columna);
