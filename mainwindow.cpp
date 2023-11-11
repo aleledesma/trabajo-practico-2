@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->ui->spinBox->setMaximum(50); //max filas
     this->ui->spinBox_2->setMaximum(50); //max columnas
     this->ui->spinBox_3->setMaximum(60); //max 60seg
+    cargarConfiguracion();
 }
 
 MainWindow::~MainWindow()
@@ -225,7 +226,7 @@ void MainWindow::cargarConfiguracion()
     int c;
     int s;
     QFile entrada("config.txt");
-    if(entrada.size()==0)
+    if(!entrada.exists())
     {
         entrada.open(QIODevice::WriteOnly | QIODevice::Text);
         QTextStream ent(&entrada);
