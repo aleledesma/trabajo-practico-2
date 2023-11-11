@@ -71,7 +71,7 @@ int* Juego::ponerEstacion()
         tipoEstacion = rand() % 4+1;
         fila = rand() % (this->filas);
         columna = rand() % (this->columnas);
-        if((validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) == nullptr) && (estacionCercaDiagonal(fila, columna) == nullptr))
+        if((validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) == nullptr) && (estacionCercaDiagonal(fila, columna) == nullptr) && (!rutaCerca(fila, columna)))
         {
             colocada = true;
             i=1001;
@@ -116,6 +116,14 @@ Estacion* Juego::estacionCerca(int fila, int columna) {
     est = buscarEstacion(fila, columna + 1); //checkea derecha
     if(est != nullptr) return est; //si hay la devuelve
     return nullptr; //si no encuentra ninguna estacion devuelve nullptr
+}
+
+bool Juego::rutaCerca(int fila, int columna) {
+    bool izq = this->tablero->getEnPos(fila, columna - 1) == 5;
+    bool der = this->tablero->getEnPos(fila, columna + 1) == 5;
+    bool arr = this->tablero->getEnPos(fila - 1, columna) == 5;
+    bool abj = this->tablero->getEnPos(fila + 1, columna) == 5;
+    return (izq || der || arr || abj);
 }
 
 Estacion* Juego::estacionCercaDiagonal(int fila, int columna) {

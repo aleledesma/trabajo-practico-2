@@ -80,6 +80,7 @@ public:
     bool sePuedeConectarRuta(int fila, int columna);
     bool comprobarConexion(int fila, int columna);
     int* nuevaRonda();
+    bool rutaCerca(int fila, int columna);
 
     bool validezEstacion(int fila, int columna, int tipo);
     void victoria();
