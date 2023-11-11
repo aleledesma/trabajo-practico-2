@@ -422,16 +422,9 @@ int* Juego::nuevaRonda() {
     this->rutasDeRonda.clear(); //se limpian las rutas de la ronda anterior;
     this->ronda++;
     //poner nueva estacion
-    int fila;
-    int columna;
-    do {
-        fila = genNumero(this->filas);
-        columna = genNumero(this->columnas);
-    } while(this->tablero->getEnPos(fila, columna) != 0 && estacionCerca(fila,columna)!=nullptr);
-    this->ponerEstacion(fila, columna);
-    int* coords = new int[2];
-    coords[0] = fila;
-    coords[1] = columna;
+    int fila = genNumero(this->filas);
+    int columna = genNumero(this->columnas);
+    int* coords = this->ponerEstacion(fila, columna);
     return coords;
 }
 
@@ -446,14 +439,14 @@ bool Juego::validezEstacion(int fila, int columna, int tipo)//corroborar que la 
     }
     else if(tipo == 3)
     {
-        if((columna == 0) || (columna == this->columnas - 2) || (this->tablero->getEnPos(fila,columna) != 0))
+        if((columna == 0) || (columna == this->columnas - 1) || (this->tablero->getEnPos(fila,columna) != 0))
         {
             return false;
         }
     }
     else if(tipo == 4)
     {
-        if((fila == 0) || (fila == this->filas - 2) || (this->tablero->getEnPos(fila,columna)!=0))
+        if((fila == 0) || (fila == this->filas - 1) || (this->tablero->getEnPos(fila,columna)!=0))
         {
             return false;
         }
