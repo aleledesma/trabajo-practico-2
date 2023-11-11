@@ -44,7 +44,6 @@ int Juego::getColumnas() const
 
 int** Juego::iniciarJuego()
 {
-    //iniciar cronometro
     int** posiciones = new int*[2];
     for(int i = 0; i<2; i++) {
         posiciones[i] = new int[2];
@@ -61,7 +60,7 @@ int** Juego::iniciarJuego()
 
 int Juego::genNumero(int max)
 {
-    int num = rand() % max; //+1?
+    int num = rand() % max;
     return num;
 }
 
@@ -72,16 +71,16 @@ void Juego::ponerEstacion(int fila, int columna)
     for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
     {
         tipoEstacion = rand() % 4+1;
-        if((!validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) != nullptr))
+        if((validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) == nullptr) && (estacionCercaDiagonal(fila, columna) == nullptr))
         {
-            fila = rand()%this->filas;
-            columnas = rand()%this->columnas;
-            colocada=false;
+            colocada = true;
+            break;
         }
         else
         {
-            colocada=true;
-            i=1000;
+            fila = rand() % (this->filas);
+            columna = rand() % (this->columnas);
+            colocada=false;
         }
     }
     if(!colocada)
@@ -116,6 +115,19 @@ Estacion* Juego::estacionCerca(int fila, int columna) {
     est = buscarEstacion(fila, columna + 1); //checkea derecha
     if(est != nullptr) return est; //si hay la devuelve
     return nullptr; //si no encuentra ninguna estacion devuelve nullptr
+}
+
+Estacion* Juego::estacionCercaDiagonal(int fila, int columna) {
+    Estacion* est;
+    est = buscarEstacion(fila - 1, columna - 1); //esquina superior izquierda
+    if(est != nullptr) return est;
+    est = buscarEstacion(fila - 1, columna + 1); //esquina superior derecha
+    if(est != nullptr) return est;
+    est = buscarEstacion(fila + 1, columna - 1); //esquina inferior izquierda
+    if(est != nullptr) return est;
+    est = buscarEstacion(fila + 1, columna + 1); //esquina inferior derecha
+    if(est != nullptr) return est;
+    return nullptr; //si no encuentra ninguna est devuelve nullptr
 }
 
 bool Juego::sePuedeConectarRuta(int fila, int columna) {
@@ -420,23 +432,23 @@ int* Juego::nuevaRonda() {
 
 bool Juego::validezEstacion(int fila, int columna, int tipo)//corroborar que la posicion de estacion sea valida
 {
-    if(tipo==1 || tipo==2)
+    if(tipo == 1 || tipo == 2)
     {
         if(this->tablero->getEnPos(fila,columna)!=0)
         {
             return false;
         }
     }
-    if(tipo==3)
+    else if(tipo == 3)
     {
-        if(columna==0 || columna==this->columnas-1 || this->tablero->getEnPos(fila,columna)!=0)
+        if((columna == 0) || (columna == this->columnas - 2) || (this->tablero->getEnPos(fila,columna) != 0))
         {
             return false;
         }
     }
-    if(tipo==4)
+    else if(tipo == 4)
     {
-        if(fila==0 || fila==this->filas-1 || this->tablero->getEnPos(fila,columna)!=0)
+        if((fila == 0) || (fila == this->filas - 2) || (this->tablero->getEnPos(fila,columna)!=0))
         {
             return false;
         }

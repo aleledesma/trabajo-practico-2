@@ -75,6 +75,7 @@ public:
     bool comprobarDisponiblidadDeConexion(int fila, int columna, char* entidad, int filaOriginal = 0, int columnaOriginal = 0);
     Estacion* buscarEstacion(int x, int y);
     Estacion* estacionCerca(int fila, int columna);
+    Estacion* estacionCercaDiagonal(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
     bool comprobarConexion(int fila, int columna);
     int* nuevaRonda();
