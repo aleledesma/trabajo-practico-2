@@ -46,13 +46,10 @@ int** Juego::iniciarJuego()
 {
     int** posiciones = new int*[2];
     for(int i = 0; i<2; i++) {
-        posiciones[i] = new int[2];
         //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
         int fila = rand() % (this->filas-1) + 1;
         int columna = rand() % (this->columnas-1) + 1;
-        posiciones[i][0] = fila;
-        posiciones[i][1] = columna;
-        this->ponerEstacion(fila,columna);
+        posiciones[i] = this->ponerEstacion(fila,columna);
     }
     this->ronda++;
     return posiciones;
@@ -64,8 +61,9 @@ int Juego::genNumero(int max)
     return num;
 }
 
-void Juego::ponerEstacion(int fila, int columna)
+int* Juego::ponerEstacion(int fila, int columna)
 {
+    int* posValida = nullptr;
     bool colocada=false;
     int tipoEstacion;
     for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
@@ -86,10 +84,12 @@ void Juego::ponerEstacion(int fila, int columna)
     if(!colocada)
     {
         victoria();
-        return;
     }
 
-    if(fila < this->filas && columna < this->columnas) {
+    if(fila < this->filas && columna < this->columnas && colocada) {
+        posValida = new int[2];
+        posValida[0] = fila;
+        posValida[1] = columna;
         Estacion* nuevaEstacion;
         this->tablero->setEnPos(fila,columna,tipoEstacion);
         switch(tipoEstacion) {
@@ -101,7 +101,7 @@ void Juego::ponerEstacion(int fila, int columna)
         }
         this->estaciones.push_back(nuevaEstacion);
     }
-
+    return posValida;
 }
 
 Estacion* Juego::estacionCerca(int fila, int columna) {
