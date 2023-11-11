@@ -68,7 +68,7 @@ public:
     int** iniciarJuego();
     int genNumero(int max);
     Tablero* getReferenciaTablero();
-    int* ponerEstacion(int fila, int columna);
+    int* ponerEstacion();
     bool ponerRuta(int fila, int columna);
     bool comprobarRuta(int fila, int columna);
     int getTipoEstacion(int indice);

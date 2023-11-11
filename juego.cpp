@@ -47,9 +47,7 @@ int** Juego::iniciarJuego()
     int** posiciones = new int*[2];
     for(int i = 0; i<2; i++) {
         //nota: el metodo ponerEstacion es quien deberia generar las posiciones fila y columna en donde colocar la estación, ya que desde ahi podemos contemplar los distintos casos (por ejemplo que las estaciones verticales no esten pegadas a los bordes, etc)
-        int fila = rand() % (this->filas-1) + 1;
-        int columna = rand() % (this->columnas-1) + 1;
-        posiciones[i] = this->ponerEstacion(fila,columna);
+        posiciones[i] = this->ponerEstacion();
     }
     this->ronda++;
     return posiciones;
@@ -61,23 +59,26 @@ int Juego::genNumero(int max)
     return num;
 }
 
-int* Juego::ponerEstacion(int fila, int columna)
+int* Juego::ponerEstacion()
 {
     int* posValida = nullptr;
     bool colocada=false;
     int tipoEstacion;
+    int fila;
+    int columna;
     for(int i=0; i<1000; i++)//si despues de 1000 iteraciones no encuentra una posicion valida, tomarlo como victoria
     {
         tipoEstacion = rand() % 4+1;
+        fila = rand() % (this->filas);
+        columna = rand() % (this->columnas);
         if((validezEstacion(fila,columna,tipoEstacion)) && (estacionCerca(fila, columna) == nullptr) && (estacionCercaDiagonal(fila, columna) == nullptr))
         {
             colocada = true;
+            i=1001;
             break;
         }
         else
         {
-            fila = rand() % (this->filas);
-            columna = rand() % (this->columnas);
             colocada=false;
         }
     }
@@ -422,9 +423,7 @@ int* Juego::nuevaRonda() {
     this->rutasDeRonda.clear(); //se limpian las rutas de la ronda anterior;
     this->ronda++;
     //poner nueva estacion
-    int fila = genNumero(this->filas);
-    int columna = genNumero(this->columnas);
-    int* coords = this->ponerEstacion(fila, columna);
+    int* coords = this->ponerEstacion();
     return coords;
 }
 
