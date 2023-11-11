@@ -53,6 +53,7 @@ private:
     int columnas;
     int ronda = 0;
     vector<pair<int,int>> rutasDeRonda;
+    vector<pair<int,int>> rutasTotales;
     pair<int, int> ultimaRuta;
     std::vector<Estacion*> estaciones;
     bool overrideComprobacion;
