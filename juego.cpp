@@ -156,7 +156,6 @@ bool Juego::comprobarConexion(int fila, int columna) {
     if(est != nullptr) {
         if(this->rutasDeRonda.size() > 1) {
             if(est->comprobaciones(fila, columna)) {
-                cout<<"estacion conectada!"<<endl;
                 return true;
             }
         }
@@ -192,9 +191,7 @@ bool Juego::ponerRuta(int fila, int columna)
         Estacion* est = estacionCerca(fila, columna);
         if(est != nullptr) {
             if(this->rutasDeRonda.size() > 1) {
-                if(est->comprobaciones(fila, columna)) {
-                    cout<<"Estacion conectada"<<endl;
-                }
+                est->comprobaciones(fila, columna);
             }
         }
         overrideComprobacion=false;
@@ -212,9 +209,7 @@ bool Juego::ponerRuta(int fila, int columna)
         Estacion* est = estacionCerca(fila, columna);
         if(est != nullptr) {
             if(this->rutasDeRonda.size() > 1) {
-                if(est->comprobaciones(fila, columna)) {
-                    cout<<"Estacion conectada"<<endl;
-                }
+                est->comprobaciones(fila, columna);
             }
         }
         return true;
