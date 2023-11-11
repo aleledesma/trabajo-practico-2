@@ -1,4 +1,3 @@
--al querer conectar una estacion desde una ruta que esta pegada a un borde no deja
 -una vez conectada una estacion comun se deben instanciar 2 estaciones
 -estaciones aparecen arriba de las rutas
 
