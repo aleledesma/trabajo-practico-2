@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Juego de trenes");
     //valores minimos
     this->ui->spinBox->setMinimum(10); //min filas
     this->ui->spinBox_2->setMinimum(10); //min columnas

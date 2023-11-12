@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>801</width>
-      <height>421</height>
+      <height>461</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -33,43 +33,57 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>360</y>
-       <width>211</width>
-       <height>24</height>
+       <y>380</y>
+       <width>171</width>
+       <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font: 700 12pt &quot;Ubuntu&quot;;
+background-color: &quot;#AAF683&quot;;
+color: &quot;#181717&quot;;</string>
+     </property>
      <property name="text">
-      <string>Jugar xd</string>
+      <string>Jugar</string>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_2">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>80</y>
-       <width>51</width>
-       <height>21</height>
+       <x>150</x>
+       <y>190</y>
+       <width>71</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px;</string>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>40</y>
-       <width>51</width>
-       <height>25</height>
+       <x>150</x>
+       <y>124</y>
+       <width>71</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>40</y>
+       <y>130</y>
        <width>49</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 17px;</string>
      </property>
      <property name="text">
       <string>Filas:</string>
@@ -79,10 +93,13 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>80</y>
-       <width>61</width>
+       <y>200</y>
+       <width>91</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 17px;</string>
      </property>
      <property name="text">
       <string>Columnas:</string>
@@ -91,11 +108,16 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>570</x>
-       <y>360</y>
-       <width>211</width>
-       <height>24</height>
+       <x>610</x>
+       <y>380</y>
+       <width>171</width>
+       <height>41</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 700 12pt &quot;Ubuntu&quot;;
+background-color: &quot;#EE6055&quot;;
+color: &quot;#181717&quot;;</string>
      </property>
      <property name="text">
       <string>Salir</string>
@@ -104,11 +126,16 @@
     <widget class="QPushButton" name="pushButton_3">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>360</y>
-       <width>211</width>
-       <height>24</height>
+       <x>320</x>
+       <y>380</y>
+       <width>171</width>
+       <height>41</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 700 12pt &quot;Ubuntu&quot;;
+background-color: &quot;#FFD97D&quot;;
+color: &quot;#181717&quot;;</string>
      </property>
      <property name="text">
       <string>Cargar partida</string>
@@ -118,23 +145,61 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>120</y>
-       <width>58</width>
-       <height>15</height>
+       <y>260</y>
+       <width>81</width>
+       <height>31</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 17px;</string>
+     </property>
      <property name="text">
-      <string>Segundos</string>
+      <string>Segundos:</string>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_3">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>120</y>
-       <width>51</width>
-       <height>23</height>
+       <x>150</x>
+       <y>260</y>
+       <width>71</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>10</y>
+       <width>291</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 600 25pt &quot;URW Bookman&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Juego de Trenes</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>80</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 300 italic 13pt &quot;Ubuntu&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Ajustes del juego</string>
      </property>
     </widget>
    </widget>
