@@ -154,10 +154,8 @@ bool Juego::sePuedeConectarRuta(int fila, int columna) {
 bool Juego::comprobarConexion(int fila, int columna) {
     Estacion* est = estacionCerca(fila, columna);
     if(est != nullptr) {
-        if(this->rutasDeRonda.size() > 1) {
-            if(est->comprobaciones(fila, columna)) {
-                return true;
-            }
+        if((this->rutasDeRonda.size() > 0) && (estacionCerca(rutasDeRonda[0].first, rutasDeRonda[0].second) != est)) {
+            return est->comprobaciones(fila, columna);
         }
     }
 }
@@ -187,13 +185,6 @@ bool Juego::ponerRuta(int fila, int columna)
         this->rutasDeRonda.push_back(coordsRuta);
         this->ultimaRuta = coordsRuta;
         this->rutasTotales.push_back(ultimaRuta);
-
-        Estacion* est = estacionCerca(fila, columna);
-        if(est != nullptr) {
-            if(this->rutasDeRonda.size() > 1) {
-                est->comprobaciones(fila, columna);
-            }
-        }
         overrideComprobacion=false;
         return true;
     }
@@ -205,13 +196,6 @@ bool Juego::ponerRuta(int fila, int columna)
         this->rutasDeRonda.push_back(coordsRuta);
         this->ultimaRuta = coordsRuta;
         this->rutasTotales.push_back(ultimaRuta);
-
-        Estacion* est = estacionCerca(fila, columna);
-        if(est != nullptr) {
-            if(this->rutasDeRonda.size() > 1) {
-                est->comprobaciones(fila, columna);
-            }
-        }
         return true;
     }
     return false;
