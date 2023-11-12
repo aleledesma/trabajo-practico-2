@@ -118,6 +118,20 @@ Estacion* Juego::estacionCerca(int fila, int columna) {
     return nullptr; //si no encuentra ninguna estacion devuelve nullptr
 }
 
+int Juego::cantidadEstacionesCerca(int fila, int columna) {
+    int cantEstaciones = 0;
+    Estacion* est;
+    est = buscarEstacion(fila - 1, columna);
+    if(est != nullptr) cantEstaciones++;
+    est = buscarEstacion(fila + 1, columna);
+    if(est != nullptr) cantEstaciones++;
+    est = buscarEstacion(fila, columna - 1);
+    if(est != nullptr) cantEstaciones++;
+    est = buscarEstacion(fila, columna + 1);
+    if(est != nullptr) cantEstaciones++;
+    return cantEstaciones;
+}
+
 bool Juego::rutaCerca(int fila, int columna) {
     bool izq = this->tablero->getEnPos(fila, columna - 1) == 5;
     bool der = this->tablero->getEnPos(fila, columna + 1) == 5;
@@ -154,7 +168,8 @@ bool Juego::sePuedeConectarRuta(int fila, int columna) {
 bool Juego::comprobarConexion(int fila, int columna) {
     Estacion* est = estacionCerca(fila, columna);
     if(est != nullptr) {
-        if((this->rutasDeRonda.size() > 0) && (estacionCerca(rutasDeRonda[0].first, rutasDeRonda[0].second) != est)) {
+        Estacion* estInicioDeRuta = estacionCerca(rutasDeRonda[0].first, rutasDeRonda[0].second);
+        if(((rutasDeRonda.size() > 0) && (estInicioDeRuta != est)) || ((rutasDeRonda.size() == 1) && (estInicioDeRuta == est) && (cantidadEstacionesCerca(fila, columna) > 1))) {
             return est->comprobaciones(fila, columna);
         }
     }

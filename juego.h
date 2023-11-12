@@ -75,7 +75,8 @@ public:
     bool comprobarExistencia(int fila, int columna, char* entidad);
     bool comprobarDisponiblidadDeConexion(int fila, int columna, char* entidad, int filaOriginal = 0, int columnaOriginal = 0);
     Estacion* buscarEstacion(int x, int y);
-    Estacion* estacionCerca(int fila, int columna);
+    Estacion* estacionCerca(int fila, int columna); //devuelve la primer estacion aledaña (si existe)
+    int cantidadEstacionesCerca(int fila, int columna); //devuelve la cantidad de estaciones cerca, sirve para realizar la logica de las conexiones que se realizan con solo una ruta
     Estacion* estacionCercaDiagonal(int fila, int columna);
     bool sePuedeConectarRuta(int fila, int columna);
     bool comprobarConexion(int fila, int columna);
