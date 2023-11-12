@@ -1,3 +1,4 @@
+-estaciones multiples se conectan consigo mismas
 -una vez conectada una estacion comun se deben instanciar 2 estaciones
 
 
