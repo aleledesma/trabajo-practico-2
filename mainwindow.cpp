@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Juego de trenes");
+    this->setWindowTitle("Trabajo Práctico 3 - POO");
     //valores minimos
     this->ui->spinBox->setMinimum(10); //min filas
     this->ui->spinBox_2->setMinimum(10); //min columnas
@@ -73,6 +73,7 @@ void MainWindow::on_pushButton_clicked()
         for(int j = 0; j<columnas; j++) {
             this->matrizBotones[i][j] = new QPushButton(this);
             this->matrizBotones[i][j]->setFixedSize(50,50);
+            this->matrizBotones[i][j]->setAutoRepeat(false);
             this->gridLayout->addWidget(this->matrizBotones[i][j], i, j);
             //
             QObject::connect(this->matrizBotones[i][j],
@@ -103,7 +104,7 @@ void MainWindow::on_pushButton_clicked()
     this->setCentralWidget(frameGameScreen); //al poner el frame del juego como "central widget" se reemplaza/oculta el frame de configuración
 
     int** posiciones = this->juego->iniciarJuego();
-    this->setWindowTitle("Segundos restantes: " + QString::number(segundos));
+    this->setWindowTitle("Ronda: " + QString::number(juego->getRonda()) + "   Segundos restantes: " + QString::number(segundos));
     this->timer->start();
 
     //Todo esto hay que sacarlo de aca y hacerlo reutilizable para cada estacion que se coloque, porque esto solo funciona para las 2 primeras estaciones que se creen
@@ -205,7 +206,7 @@ void MainWindow::on_pushButton_3_clicked()//todo esto hay que cambiarlo porque n
 void MainWindow::onTimer()
 {
     this->cronometro->decrementar();
-    this->setWindowTitle("Segundos restantes: " + QString::number(this->cronometro->getContadorSegundos()));
+    this->setWindowTitle("Ronda: " + QString::number(juego->getRonda()) + "   Segundos restantes: " + QString::number(this->cronometro->getContadorSegundos()));
 
     //si se pierde
     if(this->cronometro->getContadorSegundos() == 0) {
